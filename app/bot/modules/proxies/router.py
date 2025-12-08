@@ -1,0 +1,23 @@
+from aiogram import Router, F, Bot
+from aiogram.types import Message
+from aiogram.filters.state import StateFilter
+
+from bot.modules.proxies.settings import settings
+from bot.modules.proxies.response import get_keyboards_menu_buttons
+from settings.response import messages
+
+router: Router = Router(name="proxies")
+
+
+@router.message(F.text == settings.MENU_REPLY_TEXT)
+async def proxies(message: Message, bot: Bot) -> None:
+    try:
+        await bot.delete_message(
+            chat_id=message.chat.id, message_id=message.message_id - 1
+        )
+    except Exception:
+        pass
+    await message.answer(
+        text=messages.OPTIONS_BOT_MESSAGE,
+        reply_markup=get_keyboards_menu_buttons,
+    )
