@@ -12,7 +12,11 @@ router: Router = Router(name="main")
     StateFilter(None),
     F.text == "/start",
 )
-async def main(message: Message, bot: Bot, main_keyboards) -> None:
+async def main(
+    message: Message,
+    bot: Bot,
+    get_main_keyboards,
+) -> None:
     """Отправляет ползователю reply клавиатуру главного меню."""
     print("aaaa")
     # Удаляет сообщение которое было последним
@@ -25,5 +29,5 @@ async def main(message: Message, bot: Bot, main_keyboards) -> None:
 
     await message.answer(
         text=messages.START_BOT_MESSAGE,
-        reply_markup=main_keyboards,
+        reply_markup=get_main_keyboards,
     )

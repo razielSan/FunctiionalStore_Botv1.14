@@ -8,7 +8,7 @@ from core.response import LoggingData
 @lru_cache()
 def get_log() -> LoggingData:
     return get_loggers(
-        router_name="proxies.mod_webshare",
+        router_name="proxies",
         logging_data=logging_data,
     )
     

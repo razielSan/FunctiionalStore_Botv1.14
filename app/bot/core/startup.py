@@ -48,7 +48,7 @@ async def setup_bot() -> Dispatcher:
                         f"\n[Auto] Child router already attached: {mod.router}"
                     )
     # Формируем клавиатуру для главного меню
-    main_keyboards = get_total_buttons_reply_kb(
+    get_main_keyboards = get_total_buttons_reply_kb(
         list_text=[
             module.settings.MENU_REPLY_TEXT
             for module in root_modules
@@ -115,4 +115,4 @@ async def setup_bot() -> Dispatcher:
 
         logging.info_logger.info(f"Middleware для {logging.router_name} подключен")
 
-    return main_keyboards, dp
+    return get_main_keyboards, dp

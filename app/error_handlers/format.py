@@ -35,5 +35,4 @@ def format_errors_message(
         f"Router: {name_router}\n"
         f"Function: {function_name}\n"
         f"Response:\n{error_text}\n"
-        f"{'-'*80}"
     )

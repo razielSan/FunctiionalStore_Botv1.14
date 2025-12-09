@@ -28,7 +28,20 @@ class ModuleSettings(BaseModel):
     
 settings = ModuleSettings()
     """,
-    "response.py": "# Responses, strings, text for module {name}",
+    "response.py": """# Responses, strings, text for module {name}
+from pathlib import Path
+
+from app_utils.modules import get_child_modules_settings_inline_data
+from app_utils.keyboards import get_total_buttons_inline_kb
+
+inline_data = get_child_modules_settings_inline_data(
+    module_path=Path("{path_to_module}")
+)
+
+get_keyboards_menu_buttons = get_total_buttons_inline_kb(
+    list_inline_kb_data=inline_data, quantity_button=1
+)
+""",
     "logging.py": """from functools import lru_cache
 
 from app_utils.logging import get_loggers
@@ -39,7 +52,7 @@ from core.response import LoggingData
 @lru_cache()
 def get_log() -> LoggingData:
     return get_loggers(
-        router_name="{name}",
+        router_name="{root_router_name}",
         logging_data=logging_data,
     )
     """,
@@ -124,7 +137,15 @@ def create_module(
             for filename, content in TEMPLATE_FILES.items():
                 file_path: Path = current_path / filename
                 if not file_path.exists():
-                    file_path.write_text(content.replace("{name}", current_name))
+                    content = content.replace("{name}", current_name)
+                    # для получения логов использоуем корневое имя роутера
+
+                    content = content.replace(
+                        "{root_router_name}", current_name.split(".")[0]
+                    )
+                    path_to_module = str(current_path).replace("\\", "/")
+                    content = content.replace("{path_to_module}", path_to_module)
+                    file_path.write_text(content)
 
             # Создаем папки
             for dir_name in TEMPLATATE_DIRS:
