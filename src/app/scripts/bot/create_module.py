@@ -1,0 +1,1 @@
+from app.app_utils.module_creator.creator import creates_new_modules_via_the_command_line

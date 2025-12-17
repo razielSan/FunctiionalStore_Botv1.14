@@ -2,6 +2,8 @@ pydantic_settings
 pydantic==2.6.1
 aiogram==3.13.1
 aiohttp
+pytest
+free-proxy
 
 black
 pycodestyle
