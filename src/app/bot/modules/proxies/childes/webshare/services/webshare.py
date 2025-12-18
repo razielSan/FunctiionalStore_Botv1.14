@@ -7,6 +7,7 @@ from app.core.response import NetworkResponseData
 
 class WebshareService:
     async def receive(self, session) -> NetworkResponseData:
+        """Cвязывает handlers и WebshareAPI."""
         log = get_log()
 
         #  Отлавливаем все возмоэжные ошибки

@@ -10,15 +10,18 @@ from app.bot.modules.proxies.childes.webshare.services.webshare import webshare_
 from app.settings.response import messages
 
 
-router = Router(name=__name__)
+router: Router = Router(name=__name__)
 
 
 class FSMWebshare(StatesGroup):
+    """FSM для модели webshare."""
+
     spam: State = State()
 
 
 @router.message(FSMWebshare.spam, F.text)
 async def get_message_is_state_spam(message: Message):
+    """Отправка пользователю сообщения при вводе текста во время запроса."""
     await message.reply(text=messages.WAIT_MESSAGE)
 
 
@@ -30,6 +33,11 @@ async def webshare(
     bot: Bot,
     get_main_keyboards,
 ):
+    """
+    Отправляет пользователю строку с прокси.
+
+    Сайт: https://www.webshare.io/
+    """
 
     await state.set_state(FSMWebshare.spam)
     await state.update_data(spam=True)

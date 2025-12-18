@@ -15,8 +15,9 @@ class WebshareAPI:
         logging_data: LoggingData,
     ) -> NetworkResponseData:
         """
-        Возврщает обьект ResponseData содержащий
-        строку с 10 прокси для сайта https://www.webshare.io/
+        Возврщает обьект ResponseData содержащийстроку с 10 прокси.
+
+        Сайт: https://www.webshare.io/
 
         Args:
             url_config (str): url для получения данных о пользователе
@@ -27,7 +28,7 @@ class WebshareAPI:
             NetworkResponseData: Объект с результатом запроса.
 
             Атрибуты NetworkResponseData:
-                - message (Any | None): Данные успешного ответа (если запрос прошёл успешно).
+                - message (Any | None): Строка с 10 прокси.(если запрос прошёл успешно).
                 - error (str | None): Описание ошибки, если запрос завершился неудачей.
                 - status (int): HTTP-код ответа. 0 — если ошибка возникла на клиентской стороне.
                 - url (str): URL, по которому выполнялся запрос.

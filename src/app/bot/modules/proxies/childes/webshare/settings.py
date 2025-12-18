@@ -7,7 +7,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class ModuleSettings(BaseSettings):
     SERVICE_NAME: str = "proxies.childes.webshare"
     MENU_REPLY_TEXT: str = "proxies.childes.webshare"
-    MENU_CALLBACK_TEXT: str = "1⃣ webshare"
+    MENU_CALLBACK_TEXT: str = "2⃣ webshare"
     MENU_CALLBACK_DATA: str = "proxies.childes.webshare"
     NAME_FOR_TEMP_FOLDER: str = "proxies/childes/webshare"
 
