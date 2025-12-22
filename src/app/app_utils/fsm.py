@@ -6,7 +6,7 @@ from aiogram.fsm.context import FSMContext
 
 def sync_make_update_progress(loop, state: FSMContext) -> Callable:
     """
-    Возвращает функцию для отслеживания прогресса скачивания.
+    Возвращает функцию для отслеживания синхроноого прогресса скачивания.
 
     Args:
         loop (_type_): цикл событий

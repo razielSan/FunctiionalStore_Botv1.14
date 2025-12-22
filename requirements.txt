@@ -14,6 +14,7 @@ aiohttp==3.10.11
     # via
     #   -r requirements.in
     #   aiogram
+    #   pytest-aiohttp
 aiosignal==1.3.1
     # via aiohttp
 annotated-types==0.7.0
@@ -22,8 +23,14 @@ async-timeout==5.0.1
     # via aiohttp
 attrs==25.3.0
     # via aiohttp
+beautifulsoup4==4.14.3
+    # via
+    #   bs4
+    #   icrawler
 black==24.8.0
     # via -r requirements.in
+bs4==0.0.2
+    # via icrawler
 certifi==2025.11.12
     # via
     #   aiogram
@@ -46,6 +53,8 @@ frozenlist==1.5.0
     # via
     #   aiohttp
     #   aiosignal
+icrawler==0.6.10
+    # via -r requirements.in
 idna==3.11
     # via
     #   requests
@@ -53,7 +62,9 @@ idna==3.11
 iniconfig==2.1.0
     # via pytest
 lxml==6.0.2
-    # via free-proxy
+    # via
+    #   free-proxy
+    #   icrawler
 magic-filter==1.0.12
     # via aiogram
 mccabe==0.7.0
@@ -70,6 +81,8 @@ packaging==25.0
     #   pytest
 pathspec==0.12.1
     # via black
+pillow==10.4.0
+    # via icrawler
 platformdirs==4.3.6
     # via black
 pluggy==1.5.0
@@ -94,13 +107,30 @@ pydocstyle==6.3.0
 pyflakes==3.2.0
     # via flake8
 pytest==8.3.5
+    # via
+    #   -r requirements.in
+    #   pytest-aiohttp
+    #   pytest-asyncio
+pytest-aiohttp==1.0.5
     # via -r requirements.in
+pytest-asyncio==0.24.0
+    # via
+    #   -r requirements.in
+    #   pytest-aiohttp
 python-dotenv==1.0.1
     # via pydantic-settings
+pyyaml==6.0.3
+    # via icrawler
 requests==2.32.4
-    # via free-proxy
+    # via
+    #   free-proxy
+    #   icrawler
+six==1.17.0
+    # via icrawler
 snowballstemmer==3.0.1
     # via pydocstyle
+soupsieve==2.7
+    # via beautifulsoup4
 tomli==2.3.0
     # via
     #   black
@@ -109,6 +139,7 @@ typing-extensions==4.13.2
     # via
     #   aiogram
     #   annotated-types
+    #   beautifulsoup4
     #   black
     #   exceptiongroup
     #   multidict

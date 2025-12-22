@@ -1,3 +1,6 @@
+from app.core.response import ResponseData
+
+
 def checking_base64(data: str) -> bool:
     """
     Проверяет являются ли входящие данные в формате base64.
@@ -11,3 +14,27 @@ def checking_base64(data: str) -> bool:
     if data.startswith("http"):
         return False
     return True
+
+
+def chek_number_is_positivity(number: str) -> ResponseData:
+    """
+    Проверяет является ли входящее  значение положительным числом.
+
+    Args:
+        number (str): Данные для проверки
+
+    Returns:
+        ResponseData: Возвращает экземпляр класса ResponseData
+
+        Атрибуты ResponseData:
+            - message (Any | None): Само число если оно прошло проверку.
+            - error (str | None): Описание ошибки, если число не прошло проверку.
+    """
+
+    try:
+        number: int = int(number)
+        if number <= 0:
+            return ResponseData(error="⚠ Число должно быть больше 0")
+        return ResponseData(message=number)
+    except Exception:
+        return ResponseData(error="⚠ Данные должны быть целым числом")

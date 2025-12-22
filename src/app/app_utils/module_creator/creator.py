@@ -168,6 +168,7 @@ def create_module(
                 __init__.py
                 settings.py
                 router.py
+                ...
 
 
         path_to_modules (Path): путь до папки с модулями
@@ -302,7 +303,7 @@ def creates_new_modules_via_the_command_line(
     Дочерний модуль должен быть разделен 'childes' от родительского модула.
     Пример:
 
-    python manage.py add-module video video/childes/create audio
+    cli add-module video video/childes/create audio
 
     args:
         list_path_modules(List[str]): Список из имен путей модулей

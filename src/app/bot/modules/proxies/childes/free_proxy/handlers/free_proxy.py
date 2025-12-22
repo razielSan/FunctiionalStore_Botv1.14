@@ -9,10 +9,10 @@ from app.bot.modules.proxies.childes.free_proxy.settings import settings
 from app.bot.modules.proxies.childes.free_proxy.keyboards.inline import (
     get_free_proxy_keyboards_inline_kb,
 )
-from app.settings.response import messages
 from app.bot.modules.proxies.childes.free_proxy.services.free_proxy import (
     free_proxy_service,
 )
+from app.settings.response import messages
 
 router: Router = Router(name=__name__)
 
@@ -25,7 +25,11 @@ class FSMFreeProxy(StatesGroup):
 
 @router.message(FSMFreeProxy.spam, F.text)
 async def get_message_is_state_spam(message: Message):
-    """Отправка пользователю сообщения при вводе текста во время запроса."""
+    """
+    Отправка пользователю сообщения при вводе текста во время запроса.
+
+    Работса с FSMFreeProxy.
+    """
     await message.reply(text=messages.WAIT_MESSAGE)
 
 
@@ -47,10 +51,18 @@ async def free_proxy(call: CallbackQuery):
 async def get_data_proxies(
     call: CallbackQuery, state: FSMContext, bot: Bot, get_main_keyboards
 ):
-    """Возвращает пользователю работающие прокси."""
+    """
+    Возвращает пользователю работающие прокси.
+
+    Работса с FSMFreeProxy.
+    """
 
     chat_id: int = call.message.chat.id
+    
+    # Встаем в состояние spam для овтета пользователю во время запроса
     await state.set_state(FSMFreeProxy.spam)
+    
+    #Удаляем инлайн клавиатуру
     await call.message.edit_reply_markup(reply_markup=None)
 
     await bot.send_message(

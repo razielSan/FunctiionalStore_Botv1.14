@@ -6,6 +6,7 @@ from aiogram.types.reply_keyboard_markup import ReplyKeyboardMarkup
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from app.core.response import InlineKeyboardData
+from app.settings.response import messages
 
 
 def get_total_buttons_inline_kb(
@@ -66,7 +67,7 @@ def get_total_buttons_reply_kb(
 def get_reply_cancel_button() -> ReplyKeyboardMarkup:
     """Reply кнопка отмены."""
     reply_kb: ReplyKeyboardBuilder = ReplyKeyboardBuilder()
-    reply_kb.add(KeyboardButton(text="Отмена"))
+    reply_kb.add(KeyboardButton(text=messages.CANCEL_TEXT))
     return reply_kb.as_markup(resize_keyboard=True)
 
 

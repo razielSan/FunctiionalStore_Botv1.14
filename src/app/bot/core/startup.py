@@ -4,7 +4,7 @@ from pathlib import Path
 from aiogram import Dispatcher
 
 from app.app_utils.logging import setup_bot_logging, init_loggers
-from app.app_utils.filesistem import ensure_derictories
+from app.app_utils.filesistem import ensure_directories
 from app.app_utils.keyboards import get_total_buttons_reply_kb
 from app.app_utils.logging import get_loggers, LoggingData
 from app.app_utils.module_loader.loader import (
@@ -59,7 +59,7 @@ async def setup_bot() -> Dispatcher:
         bot_settings.PATH_BOT_TEMP_FOLDER / name for name in list_temp_folder_name
     ]
 
-    ensure_derictories(
+    ensure_directories(
         bot_settings.PATH_BOT_TEMP_FOLDER,
         bot_settings.PATH_BOT_STATIC_FOLDER,
         *list_path_to_temp_folder,

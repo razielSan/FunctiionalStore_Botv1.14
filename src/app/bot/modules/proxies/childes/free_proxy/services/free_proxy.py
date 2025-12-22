@@ -16,7 +16,16 @@ class FreePoxyService:
         type_proxy: str,
         message: Message,
     ) -> NetworkResponseData:
-        """Связывает handleres и FreeProxyAPI."""
+        """
+        Application service для сценария поиска изображений по названию.
+
+        Отвечает за:
+        - оркестрацию вызова FreeProxyAPI
+        - подготовку данных для handlers
+
+        Не содержит логики взаимодействия с Telegram UI,
+        кроме вспомогательных сообщений пользователю.
+        """
         logging_data = get_log()
 
         loop = asyncio.get_running_loop()
@@ -52,7 +61,7 @@ class FreePoxyService:
 
             await asyncio.sleep(1)
 
-        msg: NetworkResponseData = await progress_task
+        msg = await progress_task
         return msg
 
 

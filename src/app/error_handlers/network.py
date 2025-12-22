@@ -52,7 +52,7 @@ async def error_handler_for_the_website(
         data (_type_, optional): Данные для POST запроса
         headers (dict): Заголовки запроса
         function_name (str): Имя функции в которой произошла ошибка
-        json (json_data): json данне.По умолчанию None 
+        json (json_data): json данне.По умолчанию None
 
     Returns:
         NetworkResponseData: Объект с результатом запроса.

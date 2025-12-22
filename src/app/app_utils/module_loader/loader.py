@@ -134,18 +134,17 @@ def get_child_modules_settings_inline_data(
     """
     Проходится по дочерним модулям из указанного пути по файлам settings.py.
 
-    Записывает данные для инлайн клавиатуры в InlineKeyboardData
+    Записывает данные для инлайн клавиатуры в InlineKeyboardData.
 
-    Важное
-    обьект settings должен содержать
+    Важное: Обьект settings должен содержать
+
     settings.MENU_CALLBACK_DATA
     settings.MENU_CALLBACK_TEXT
 
-    Если
 
     Args:
         module_path (Path): Путь до модуля
-        error_logger (Logger) : Логер для записи в лог ошибок
+        error_logger (Logger): Логер для записи в лог ошибок
         root_package (str): Путь для импорта до childes, начинается с корневой директории
 
         Пример:
@@ -210,8 +209,8 @@ def get_child_modules_settings_temp_folder(
     """
     Проходится по дочерним модулям из указанного пути по файлам settings.py.
 
-    Важное
-    Обьект settings должен содержать
+    Важное: Обьект settings должен содержать
+    
     settings.NAME_FOR_TEMP_FOLDER
 
     Args:

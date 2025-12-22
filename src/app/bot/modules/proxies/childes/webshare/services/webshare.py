@@ -7,7 +7,15 @@ from app.core.response import NetworkResponseData
 
 class WebshareService:
     async def receive(self, session) -> NetworkResponseData:
-        """Cвязывает handlers и WebshareAPI."""
+        """
+        Application service для сценария поиска изображений по названию.
+
+        Отвечает за:
+        - оркестрацию вызова WebshareAPI
+        - подготовку данных для handlers
+
+        Не содержит логики взаимодействия с Telegram UI
+        """
         log = get_log()
 
         #  Отлавливаем все возмоэжные ошибки
@@ -28,4 +36,4 @@ class WebshareService:
         return proxies_data
 
 
-webshare_service = WebshareService()
+webshare_service: WebshareService = WebshareService()

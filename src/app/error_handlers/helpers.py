@@ -79,7 +79,7 @@ def safe_import(
     """
     Безопасный импорт модуля.
 
-    Возвращает модуль или None если произошла ошибка
+    Возвращает модуль или None если произошла ошибка.
     """
     try:
         return importlib.import_module(module_path)

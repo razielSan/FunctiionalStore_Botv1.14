@@ -2,9 +2,12 @@ pydantic_settings
 pydantic==2.6.1
 aiogram==3.13.1
 aiohttp
-pytest
 free-proxy
+icrawler
 
+pytest
+pytest-asyncio
+pytest-aiohttp
 black
 pycodestyle
 pydocstyle

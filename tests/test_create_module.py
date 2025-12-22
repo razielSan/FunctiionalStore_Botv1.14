@@ -3,6 +3,7 @@ from pathlib import Path
 import pytest
 
 from app.app_utils.module_creator.creator import create_module
+from app.app_utils.module_remover.remover import remove_module
 from app.core.response import ResponseData
 
 
@@ -25,7 +26,7 @@ from app.core.response import ResponseData
 def test_create_module(tmp_path: Path, modules):
     # tmp_path - временный путь для теста
     modules_root: Path = tmp_path / "test_app" / "bot" / "modules"
-    modules_root.mkdir(parents=True)
+    modules_root.mkdir(parents=True, exist_ok=True)
 
     resul: ResponseData = create_module(
         list_path_modules=modules,
