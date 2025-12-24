@@ -15,14 +15,14 @@ class FreeProxyAPI:
         limit_time_seconds: int = 120,
     ) -> NetworkResponseData:
         """
-        Возвращает обьект NetworkResponseData содержащий работающие прокси.
+        Возвращает обьект NetworkResponseData, содержащий работающие прокси.
 
-        Работает с библиотекой free-proxy
+        Работает с библиотекой free-proxy.
 
         Args:
             type_proxy (str): Тип прокси('http' или 'https')
-            logging_data (LoggingData): обьекта класса LoggingData содержащий в себе
-            логи и имя роутера
+            logging_data (LoggingData): Обьекта класса LoggingData содержащий в себе
+            логгеры и имя роутера
             limit_time_seconds (int, optional): Время отведенное на запрос
             в секундах. По умолчанию 120.
 

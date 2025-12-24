@@ -33,7 +33,7 @@ def setup_bot_logging(
     Args:
         bot_name: (str): Имя бота
         base_path (Path): Путь до папки с логами
-        log_format (str): формат записи в лог
+        log_format (str): Формат записи в лог
         date_format (str): Временной формат записи в лог
         router_name (str, optional): Имя папки для конкретного роутера, если нужно,
         если нет будет сохранятся в base_path
@@ -42,7 +42,7 @@ def setup_bot_logging(
         )
 
     Returns:
-        Tuple[Logger, Logger, Logger]: Кортеж из логеров
+        Tuple[Logger, Logger, Logger]: Кортеж из логгеров
     """
 
     # Формиурем имя для логгера
@@ -128,10 +128,10 @@ def init_loggers(
     Args:
         bot_name (str): имя бота
         list_router_name (List[str]): Список из имен роутеров
-        setup_bot_logging (Callable): функция которая создает логгер
-        log_format (str): формат записи в лог
-        date_format (str): формат записи времения
-        base_path (str): путь к папке с логами
+        setup_bot_logging (Callable): Функция которая создает логгер
+        log_format (str): Формат записи в лог
+        date_format (str): Формат записи времения
+        base_path (str): Путь к папке с логами
         bot_logging (bool): Флаг для логгирования бота. По умолчанию True
 
         log_data (LoggerStorage): экземпляр класса хранилища для логов

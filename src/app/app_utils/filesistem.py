@@ -23,7 +23,7 @@ def ensure_directories(
     for dir in requiered_dirs:
         dir.mkdir(parents=True, exist_ok=True)
         if info_logger:
-            info_logger.info(f"Директория {dir} созданна")
+            info_logger.info(f"Директория {dir} создана")
 
 
 def delete_all_files_and_symbolik_link(
@@ -35,7 +35,7 @@ def delete_all_files_and_symbolik_link(
 
     Args:
         path_folder (Path): Путь до папки
-        logging_data (LoggingData): Обьект класса LoggingData содержащий в себе логеры и
+        logging_data (LoggingData): Обьект класса LoggingData содержащий в себе логгеры и
         имя роутера
     """
     # Проверяем есть ли папка в наличии
@@ -98,14 +98,14 @@ def make_archive(
         Пример
         app/bot/temp/video/video
 
-        format_archive (str): формат архива
+        format_archive (str): Формат архива
         root_dir (Path): Путь к файлам которые нужно архивировать
         base_dir (str): Каталог, откуда начинается архивирование
 
         Пример
         "." - архивирует все файлы в сам архив без создания папок
 
-        logging_data (LoggingData): Обьект класса LoggingData содержащий в себе логеры и
+        logging_data (LoggingData): Обьект класса LoggingData содержащий в себе логгеры и
         имя роутера
 
     Returns:

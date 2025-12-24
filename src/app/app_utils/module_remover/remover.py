@@ -1,5 +1,6 @@
 import shutil
 from pathlib import Path
+import logging
 
 
 def remove_module(
@@ -7,7 +8,8 @@ def remove_module(
     log_path: Path,
     temp_path: Path,
     modules_path: Path,
-    tests=False,
+    close_loggers: bool = True,
+    tests: bool = False,
 ):
     """
     Удаляет модуль и его дочерние модули, temp папку связаную с модулями и log модуля если родительский.
@@ -21,8 +23,15 @@ def remove_module(
         log_path (Path): путь до папки с логами
         temp_path (Path): путь до temp папки
         modules_path (Path): путь до папки с модулями
+        close_loggers (bool): флаг для закрытия логгеров.По умолчанию True
+        tests (bool): флаг для проверки функции в тестах
     """
-    modules_path = modules_path / path_name
+
+    # Закрываем логи, если есть открытые
+    if close_loggers:
+        logging.shutdown()
+
+    modules_path: Path = modules_path / path_name
 
     if not modules_path.exists():
         print(f"Модуль {path_name} не найден")
@@ -34,7 +43,7 @@ def remove_module(
             f"Вы точно хотите удалить модуль - {path_name}\n1. "
             "Да - Нажмите 'Enter'\n2. Нет - Отправьте любой символ"
         )
-        
+
     # 1. Удаляем модуль
     if not result:
         shutil.rmtree(modules_path)

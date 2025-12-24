@@ -13,9 +13,9 @@ def format_errors_message(
     Возвращает строку для записи в лог ошибок.
 
     Args:
-        name_router (str): имя роутера
-        method (str): метод запроса
-        status (int): статус ответа
+        name_router (str): Имя роутера
+        method (str): Метод запроса
+        status (int): Статус ответа
         url (str): URL запроса
         error_text (str): Текст ошибки
         function: (str): Имя функции в которой произошла ошибка

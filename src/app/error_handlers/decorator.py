@@ -3,7 +3,7 @@ import functools
 from asyncio import exceptions
 
 from app.error_handlers.format import format_errors_message
-from app.core.response import LoggingData, NetworkResponseData
+from app.core.response import LoggingData, ResponseData
 from app.settings.response import messages
 
 
@@ -25,11 +25,9 @@ def safe_async_execution(logging_data: Optional[LoggingData] = None):
 
             except exceptions.CancelledError:
                 print("Остановка работы процесса пользователем")
-                return NetworkResponseData(
+                return ResponseData(
                     message="Остановка работы процесса пользователем",
-                    status=0,
-                    method="<unknown>",
-                    url="<unknown>",
+                    error=None,
                 )
 
             except Exception as err:
@@ -46,11 +44,9 @@ def safe_async_execution(logging_data: Optional[LoggingData] = None):
                     )
                 else:
                     print(err)
-                return NetworkResponseData(
+                return ResponseData(
                     error=messages.SERVER_ERROR,
-                    status=0,
-                    method="<unknown>",
-                    url="<unknown>",
+                    message=None,
                 )
 
         return wrapper
@@ -60,7 +56,7 @@ def safe_async_execution(logging_data: Optional[LoggingData] = None):
 
 def safe_sync_execution(logging_data: Optional[LoggingData] = None):
     """
-        Декоратор оборчивающий синхронную функцию в try/except для перхвата всех возможных ошибок
+        Декоратор оборчивающий синхронную функцию в try/except для перхвата всех возможных ошибок.
         При ошибке в ходе выполнения функции выкидвает обьект класса ResponseData
 
     Args:
@@ -86,15 +82,11 @@ def safe_sync_execution(logging_data: Optional[LoggingData] = None):
                     )
                 else:
                     print(err)
-                return NetworkResponseData(
+                return ResponseData(
                     error=messages.SERVER_ERROR,
-                    status=0,
-                    method="<unknown>",
-                    url="<unknown>",
+                    message=None,
                 )
 
         return wrapper
 
     return decorator
-
-

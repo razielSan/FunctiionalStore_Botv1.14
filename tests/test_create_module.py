@@ -70,7 +70,7 @@ def test_create_module(tmp_path: Path, modules):
 @pytest.mark.parametrize(
     "modules",
     [
-        ["video/childes"],
+        ["video/childes", "video"],
         ["video/wrong/childes"],
         ["video/./data"],
         ["video//data"],

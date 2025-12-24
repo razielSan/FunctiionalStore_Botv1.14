@@ -43,16 +43,16 @@ async def error_handler_for_the_website(
     Асинхронный запрос с обработками ошибок для сайтов.
 
     Args:
-        session (_type_): асинхронная сессия запроса
+        session (_type_): Асинхронная сессия запроса
         url (str): URL сайта
         logging_data: (LoggingData): Класс содержащий логгер и имя роутера для логгирования
         data_type (str, optional): Тип возвращаемых данных.По умолчанию JSON('JSON', 'TEXT', 'BYTES')
-        timeout (int, optional): таймаут запроса в секундах
+        timeout (int, optional): Таймаут запроса в секундах
         method (str, optional): Метод запроса. 'POST' или "GET"
         data (_type_, optional): Данные для POST запроса
         headers (dict): Заголовки запроса
         function_name (str): Имя функции в которой произошла ошибка
-        json (json_data): json данне.По умолчанию None
+        json (json_data): JSON данные.По умолчанию None
 
     Returns:
         NetworkResponseData: Объект с результатом запроса.

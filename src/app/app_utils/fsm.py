@@ -9,8 +9,8 @@ def sync_make_update_progress(loop, state: FSMContext) -> Callable:
     Возвращает функцию для отслеживания синхроноого прогресса скачивания.
 
     Args:
-        loop (_type_): цикл событий
-        state (FSMContext): состояние В FSM для обновление прогресса
+        loop (_type_): Цикл событий
+        state (FSMContext): Состояние В FSM для обновления прогресса
     """
 
     def update_progress(
@@ -39,8 +39,8 @@ def async_make_update_progress(state: FSMContext):
     Возвращает функцию для отслеживания асинхронного прогресса скачивания.
 
     Args:
-        loop (_type_): цикл событий
-        state (FSMContext): состояние В FSM для обновление прогресса
+        loop (_type_): Цикл событий
+        state (FSMContext): Состояние В FSM для обновление прогресса
     """
 
     async def update_progress(data_state: int = None):

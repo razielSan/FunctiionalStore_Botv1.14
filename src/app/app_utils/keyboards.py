@@ -17,7 +17,7 @@ def get_total_buttons_inline_kb(
     """Общая inline клавиатура с генерацими кнопок.
 
     Args:
-        list_inline_kb_data (List[InlineKeyboardData]): список из InlineKeyboardData с данными о кнопке
+        list_inline_kb_data (List[InlineKeyboardData]): Список из InlineKeyboardData с данными о кнопке
         quantity_button (int): Количество кнопок на строке(По умолчанию 1)
         resize_keyboard (bool, optional): Изменяет размер клавиатуры по вертикали для оптимального размещения
 
@@ -42,7 +42,7 @@ def get_total_buttons_reply_kb(
     quantity_button: int,
     resize_keyboard=True,
 ) -> ReplyKeyboardMarkup:
-    """Общая reply клавиатура с генерацими кнопок.
+    """Общая reply клавиатура с генерациями кнопок.
 
     Args:
         list_text (List[str]): Список из строк с названиями кнопок

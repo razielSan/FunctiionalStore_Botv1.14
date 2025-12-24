@@ -15,14 +15,14 @@ class WebshareAPI:
         logging_data: LoggingData,
     ) -> NetworkResponseData:
         """
-        Возврщает обьект ResponseData содержащийстроку с 10 прокси.
+        Возврщает обьект ResponseData содержащий строку с 10 прокси.
 
         Сайт: https://www.webshare.io/
 
         Args:
-            url_config (str): url для получения данных о пользователе
-            url_proxeis_list (str): url для получения списка  прокси
-            api_key (str): Api ключ
+            url_config (str): URL для получения данных о пользователе
+            url_proxeis_list (str): URL для получения списка  прокси
+            api_key (str): API ключ
 
         Returns:
             NetworkResponseData: Объект с результатом запроса.
@@ -78,4 +78,4 @@ class WebshareAPI:
         )
 
 
-webshare_api = WebshareAPI()
+webshare_api: WebshareAPI = WebshareAPI()

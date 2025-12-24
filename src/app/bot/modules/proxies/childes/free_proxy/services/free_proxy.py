@@ -1,12 +1,13 @@
 import asyncio
-from typing import List
+from typing import List, Union
+from asyncio import Task
 
 from aiogram.types import Message
 
 from app.bot.modules.proxies.childes.free_proxy.logging import get_log
 from app.bot.modules.proxies.childes.free_proxy.api.free_proxy import free_proxy_api
 from app.error_handlers.helpers import run_safe_inf_executror
-from app.core.response import NetworkResponseData
+from app.core.response import ResponseData, NetworkResponseData
 from app.settings.response import messages
 
 
@@ -15,7 +16,7 @@ class FreePoxyService:
         self,
         type_proxy: str,
         message: Message,
-    ) -> NetworkResponseData:
+    ) -> Union[NetworkResponseData, ResponseData]:
         """
         Application service для сценария поиска изображений по названию.
 
@@ -31,7 +32,9 @@ class FreePoxyService:
         loop = asyncio.get_running_loop()
 
         # Формируем Task для отслеживания прогресса
-        progress_task = asyncio.create_task(
+        progress_task: Task[
+            Union[ResponseData, NetworkResponseData]
+        ] = asyncio.create_task(
             run_safe_inf_executror(
                 loop,
                 free_proxy_api.get_proxies,

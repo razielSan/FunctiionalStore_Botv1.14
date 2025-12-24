@@ -173,7 +173,7 @@ def create_module(
 
         path_to_modules (Path): путь до папки с модулями
         root_package (str): Путь для импорта, начинается с корневой директории
-        
+
         Пример:
         app.bot.modules
 
@@ -196,9 +196,6 @@ def create_module(
                 return ResponseData(
                     error="childes используется для дочерних модулей.Укажите другое имя модуля",
                     message=None,
-                    status=0,
-                    method="<unknown>",
-                    url="<unknown>",
                 )
 
             for index, folder_name in enumerate(parts, start=1):
@@ -207,9 +204,6 @@ def create_module(
                         return ResponseData(
                             error="Разделитель между именами модулей должен называться - childes",
                             message=None,
-                            status=0,
-                            method="<unknown>",
-                            url="<unknown>",
                         )
 
         # Проходимся по именам модулей
@@ -300,7 +294,7 @@ def creates_new_modules_via_the_command_line(
     """
     Создает новые модули для бота через командную строку.
 
-    Дочерний модуль должен быть разделен 'childes' от родительского модула.
+    Дочерний модуль должен быть разделен 'childes' от родительского модуля.
     Пример:
 
     cli add-module video video/childes/create audio
@@ -311,10 +305,10 @@ def creates_new_modules_via_the_command_line(
         ['video/childes/main', "audio"]
         module_path (Path):  Путь до папки с модулями
         root_package (str): Путь для импорта, начинается с корневой директории
-        
+
         Пример:
         app.bot.modules
-        
+
     """
     data: ResponseData = create_module(
         list_path_modules=list_path_modules,

@@ -125,7 +125,6 @@ class KinopoiskService:
 
                 # формируем полное имя изобраежния без расширения
                 full_name = f"{alternative_name}({name})-{year}".replace(":", "")
-                print(full_name)
                 array_link_img_url.append(
                     [
                         poster.get("url"),
@@ -190,7 +189,6 @@ class KinopoiskService:
             list_path=[path_folder],
             warning_logger=logging_data.warning_logger,
         )
-        print(full_name, 1111)
         return response_archive
 
 

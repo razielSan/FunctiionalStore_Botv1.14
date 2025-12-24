@@ -91,6 +91,7 @@ async def get_data_proxies(
         await bot.send_message(
             chat_id=chat_id,
             text=f"{free_proxy.error}\n{messages.TRY_REPSONSE_MESSAGE}",
+            reply_markup=get_main_keyboards,
         )
         await bot.send_message(
             chat_id=chat_id,

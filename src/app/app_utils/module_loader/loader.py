@@ -20,12 +20,12 @@ def load_modules(
     Внутри router.py ищет обьект router
     Внутри settings.py ищет обьект settings
 
-    Если файлов settings.py или router.py идет дальше по папкам
+    Если файлов settings.py или router.py нет, то идет дальше по папкам
     Если произошла ошибка импорта пишет в лог
 
     Args:
         modules_path (Path): Путь до нужного модуля
-        error_logger (Logger): Логер для записи в лог ошибок
+        error_logger (Logger): Логгер для записи в лог ошибок
         root_package (str): Путь для импорта, начинается с корневой директории
 
         Пример:
@@ -144,7 +144,7 @@ def get_child_modules_settings_inline_data(
 
     Args:
         module_path (Path): Путь до модуля
-        error_logger (Logger): Логер для записи в лог ошибок
+        error_logger (Logger): Логгер для записи в лог ошибок
         root_package (str): Путь для импорта до childes, начинается с корневой директории
 
         Пример:
@@ -155,8 +155,8 @@ def get_child_modules_settings_inline_data(
         List[InlineKeyboardData]: Возвращает список из InlineKeyboardData
 
         Атрибуты InlineKeyboardData]:
-                - text (str): текст инлайн клавиатуры
-                - callback_data (str): callback_data инлайн клавиатуры
+                - text (str): Текст инлайн клавиатуры
+                - callback_data (str): Callback_data инлайн клавиатуры
                 - resize_keyboard (bool, Optional): Подгон размера клавиатуры.True по умолчанию
     """
 
@@ -215,7 +215,7 @@ def get_child_modules_settings_temp_folder(
 
     Args:
         module_path (Path): Путь до модуля
-        error_logger (Logger) : Логер для записи в лог ошибок
+        error_logger (Logger) : Логгер для записи в лог ошибок
         root_package (str): Путь для импорта, начинается с корневой директории
 
         Пример:

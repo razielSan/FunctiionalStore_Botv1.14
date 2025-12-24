@@ -6,7 +6,7 @@ from logging import Logger
 import importlib
 from types import ModuleType
 
-from app.core.response import LoggingData, NetworkResponseData
+from app.core.response import LoggingData, ResponseData
 from app.error_handlers.format import format_errors_message
 from app.settings.response import messages
 
@@ -17,11 +17,11 @@ async def run_safe_inf_executror(
     *args,
     logging_data: Optional[LoggingData] = None,
     **kwargs,
-) -> Union[Any, NetworkResponseData]:
+) -> Union[Any, ResponseData]:
     """
     Отлавливает все возможные ошибки для переданной синхронной функции.
 
-    При ошибке в ходе выполнения функции выкидвает обьект класса ResponseData
+    При ошибке в ходе выполнения функции выкидывает обьект класса ResponseData
 
     Args:
         loop (AbstractEventLoop): цикл событий
@@ -43,11 +43,9 @@ async def run_safe_inf_executror(
         )
     except exceptions.CancelledError:
         print("Остановка работы процесса пользователем")
-        return NetworkResponseData(
+        return ResponseData(
             message="Остановка работы процесса пользователем",
-            status=0,
-            method="<unknown>",
-            url="<unknown>",
+            error=None,
         )
 
     except Exception as err:
@@ -64,11 +62,9 @@ async def run_safe_inf_executror(
             )
         else:
             print(err)
-        return NetworkResponseData(
+        return ResponseData(
             error=messages.SERVER_ERROR,
-            url="<unknwon>",
-            method="<unknown>",
-            status=0,
+            message=None,
         )
 
 

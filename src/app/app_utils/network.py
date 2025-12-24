@@ -17,16 +17,16 @@ async def get_and_save_image(
     base_64=False,
 ) -> NetworkResponseData:
     """
-    Сохраняет data_requests по указанному если base_64 = True.
+    Сохраняет data_requests по указанному пути, если base_64 = True.
 
     Если data_requests это URL.Заходит по url, скачивает изображение
     и сохраняет его по указанному пути
 
     Args:
-        data_requests (str): url для скачивания или строка в кодировке base64
+        data_requests (str): URL для скачивания или строка в кодировке base64
         path_img (Path): Путь до картинки
-        session (ClientSession): сессия для запроса
-        logging_data (LoggingData): обьект класса LoggingData содержащий в себе логгер и имя роутера
+        session (ClientSession): Cессия для запроса
+        logging_data (LoggingData): Обьект класса LoggingData содержащий в себе логгер и имя роутера
         base_64 (Optional[bool], optional): Проверка на кодировку base_64. По умолачанию None
 
     Returns:
