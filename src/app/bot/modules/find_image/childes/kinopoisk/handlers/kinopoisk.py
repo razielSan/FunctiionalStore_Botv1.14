@@ -34,6 +34,8 @@ async def kinopoisk(call: CallbackQuery, state: FSMContext) -> None:
 
     Работа с FSMKinopoiskSearch.
     """
+    
+    await call.message.edit_reply_markup(reply_markup=None)
 
     await state.set_state(FSMKinopoiskSearch.title)
     await call.message.answer(
@@ -88,6 +90,7 @@ async def get_poster_kinopoisk(
 
     Работа с FSMFindImageName.
     """
+    
 
     # Встаем в состояние spam для отправки сообщения пользователю при запросе
     await state.set_state(FSMKinopoiskSearch.spam)

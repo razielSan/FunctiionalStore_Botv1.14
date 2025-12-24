@@ -142,7 +142,7 @@ async def get_image(
             # удаляем архив
             archive = archive_images.message
             delete_data(
-                list_path=[archive, archive],
+                list_path=[archive],
                 warning_logger=logging_data.warning_logger,
             )
         else:
