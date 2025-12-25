@@ -109,6 +109,7 @@ def get_log() -> LoggingData:
         logging_data=logging_data,
     )
     """,
+    "extensions.py": ""
 }
 
 TEMPLATATE_DIRS: List[str] = [

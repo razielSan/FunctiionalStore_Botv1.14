@@ -40,7 +40,7 @@ async def setup_bot() -> Dispatcher:
             for module in root_modules
             if module.settings.SERVICE_NAME != "main"
         ],
-        quantity_button=1,
+        quantity_button=2,
     )
 
     modules_settings: List[str] = [

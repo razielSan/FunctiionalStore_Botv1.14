@@ -1,6 +1,7 @@
 pydantic_settings
 pydantic==2.6.1
 aiogram==3.13.1
+google-api-python-client==2.179.0
 aiohttp
 free-proxy
 icrawler

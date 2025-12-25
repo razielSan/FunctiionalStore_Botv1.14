@@ -6,6 +6,7 @@ import json
 from app.error_handlers.network import error_handler_for_the_website
 
 
+@pytest.mark.integration
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     "status",
@@ -38,6 +39,7 @@ async def test_error_status_code_response(aiohttp_server, fake_logging_data, sta
     assert resp.error is not None
 
 
+@pytest.mark.integration
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     "content_type",
