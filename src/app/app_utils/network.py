@@ -15,6 +15,7 @@ async def get_and_save_image(
     session: ClientSession,
     logging_data: LoggingData,
     base_64=False,
+    ext: bool = False,
 ) -> NetworkResponseData:
     """
     Сохраняет data_requests по указанному пути, если base_64 = True.
@@ -47,20 +48,40 @@ async def get_and_save_image(
             with open(path_img, "wb") as image:
                 image.write(image_file)
         else:
+            headers = {
+                "User-Agent": (
+                    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                    "AppleWebKit/537.36 (KHTML, like Gecko) "
+                    "Chrome/120.0 Safari/537.36"
+                )
+            }
             # Делаем запрос на сайт для получения данных о картинке
             response: NetworkResponseData = await error_handler_for_the_website(
                 session=session,
                 url=data_requests,
                 logging_data=logging_data,
                 data_type="BYTES",
-                timeout=180,
+                timeout=5,
+                headers=headers,
                 function_name=get_and_save_image.__name__,
             )
             if response.error:
                 return response
 
+            # Получаем расширение для картинки, если есть
+            ext: bool = None
+            content_type = response.headers.get("Content-Type", "")
+            if "image/" in content_type:
+                ext = content_type.split("/")[-1]
+            if ext:
+                img_name = path_img.name.split(".")[0]  # 4343sds3434321.jpg
+                ext = ext.split(";")[0]
+                ext = ext.split("+")[0]  # svg+lxml
+                path_img = path_img.parent / f"{img_name}.{ext}"
+
             # Создаем папки если не существуют
             path_img.parent.mkdir(parents=True, exist_ok=True)
+
             with open(path_img, "wb") as file:
                 file.write(response.message)
 

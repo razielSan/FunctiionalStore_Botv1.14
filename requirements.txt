@@ -157,6 +157,7 @@ pyyaml==6.0.3
     # via icrawler
 requests==2.32.4
     # via
+    #   -r requirements.in
     #   free-proxy
     #   google-api-core
     #   icrawler

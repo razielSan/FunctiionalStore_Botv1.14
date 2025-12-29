@@ -75,6 +75,7 @@ async def error_handler_for_the_website(
             json=json,
             allow_redirects=True,
         ) as resp:
+
             # Для удобного логгирования
             if resp.status in [403, 404]:
 
@@ -143,6 +144,7 @@ async def error_handler_for_the_website(
                     status=resp.status,
                     url=url,
                     method=resp.method,
+                    headers=resp.headers,
                 )
             elif data_type.upper() == "TEXT":
                 message_body: str = await resp.text()
@@ -151,6 +153,7 @@ async def error_handler_for_the_website(
                     status=resp.status,
                     url=url,
                     method=resp.method,
+                    headers=resp.headers,
                 )
             else:
                 message_body: bytes = await resp.read()
@@ -159,6 +162,7 @@ async def error_handler_for_the_website(
                     status=resp.status,
                     url=url,
                     method=resp.method,
+                    headers=resp.headers,
                 )
     except aiohttp.ClientError as err:
         error_message: str = f"Ошибка сети при запросе:\n{err}"

@@ -3,11 +3,15 @@ from typing import List, Union
 from asyncio import Task
 
 from aiogram.types import Message
+from fp.fp import FreeProxy
+
 
 from app.bot.modules.proxies.childes.free_proxy.logging import get_log
 from app.bot.modules.proxies.childes.free_proxy.api.free_proxy import free_proxy_api
+from app.bot.modules.proxies.childes.free_proxy.settings import FreeProxyResponse
 from app.error_handlers.helpers import run_safe_inf_executror
-from app.core.response import ResponseData, NetworkResponseData
+from app.core.response import ResponseData, NetworkResponseData, LoggingData
+from app.core.typing import ProgressNotifier
 from app.settings.response import messages
 
 
@@ -15,7 +19,10 @@ class FreePoxyService:
     async def recieve(
         self,
         type_proxy: str,
-        message: Message,
+        list_data_proxies: List[FreeProxyResponse],
+        get_free_proxy: FreeProxy,
+        logging_data: LoggingData,
+        notify_progress: ProgressNotifier = None,
     ) -> Union[NetworkResponseData, ResponseData]:
         """
         Application service для сценария поиска изображений по названию.
@@ -27,7 +34,6 @@ class FreePoxyService:
         Не содержит логики взаимодействия с Telegram UI,
         кроме вспомогательных сообщений пользователю.
         """
-        logging_data = get_log()
 
         loop = asyncio.get_running_loop()
 
@@ -40,12 +46,13 @@ class FreePoxyService:
                 free_proxy_api.get_proxies,
                 type_proxy,
                 logging_data,
+                list_data_proxies,
+                get_free_proxy,
                 90,
                 logging_data=logging_data,
             )
         )
-        # создаем сообщение для показывания прогресса запроса пользователю
-        progress_message: Message = await message.answer(text=messages.WAIT_MESSAGE)
+        # progress_message: Message = await message.answer(text=messages.WAIT_MESSAGE)
 
         progress_list: List[str] = [".", "..", "...", "....", "....."]
         count: int = 0
@@ -54,17 +61,18 @@ class FreePoxyService:
         while not progress_task.done():
             if count > 4:
                 count = 0
-            try:
-                await progress_message.edit_text(
+
+            # Обновляем прогресс скачивания
+            if notify_progress:
+                await notify_progress(
                     text=f"{messages.WAIT_MESSAGE}{progress_list[count]}",
                 )
-            except Exception:
-                pass
+
             count += 1
 
             await asyncio.sleep(1)
 
-        msg = await progress_task
+        msg: Union[ResponseData, NetworkResponseData] = await progress_task
         return msg
 
 

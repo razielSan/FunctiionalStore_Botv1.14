@@ -3,6 +3,7 @@ from pathlib import Path
 from typing import List
 
 from aiogram import Dispatcher
+import pytest
 
 from app.app_utils.module_creator.creator import create_module
 from app.app_utils.module_loader.loader import (
@@ -15,6 +16,7 @@ from app.core.modules_loader import ModuleInfo
 from app.core.response import ResponseData
 
 
+@pytest.mark.integration
 def test_load_modules_integration(tmp_path: Path):
     # Создаем структуру
     modules_path: Path = tmp_path / "test_app" / "bot" / "modules"

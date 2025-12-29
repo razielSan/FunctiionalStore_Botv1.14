@@ -10,6 +10,7 @@ class PasswordAPI:
         self,
         password_hard: str,
         step: str = 3,
+        count_password: int = 15,
     ) -> ResponseData:
         """
 
@@ -76,7 +77,7 @@ class PasswordAPI:
         # Определяем сложноый или простой нужен пароль
         count: int = 7 if password_hard == settings.DIFFICULT else 4
 
-        for _ in range(1, 16):  # Определяем количество паролей
+        for _ in range(1, count_password + 1):  # Определяем количество паролей
             password: str = ""
 
             for i in range(1, count):  # Определяем количество символов в пароле

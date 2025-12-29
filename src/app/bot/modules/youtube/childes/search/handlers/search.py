@@ -124,7 +124,6 @@ async def add_choise_sort(call: CallbackQuery, state: FSMContext):
 
     await call.message.edit_reply_markup(reply_markup=None)
 
-    print(call.data, 111111111)
     choise_sort = call.data.split(" ")[2]
 
     await call.message.answer("✏ Введите название видео...")
@@ -145,8 +144,6 @@ async def get_search_result_video(
 
     data: Dict = await state.get_data()
     sort: str = data["choise_sort"]
-
-    await message.answer("olk")
 
     logging_data = get_log()
 
@@ -199,7 +196,6 @@ async def finish_find_video(
     _, _, count = call.data.split(" ")
     data: Dict = await state.get_data()
     video_search_list: List = data["list_result_video"]
-    print(count, type(count), int(count))
 
     await bot.edit_message_text(
         text=video_search_list[int(count)],

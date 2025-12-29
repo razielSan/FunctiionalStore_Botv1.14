@@ -5,6 +5,7 @@ from fp.fp import FreeProxy, FreeProxyException
 from app.core.response import NetworkResponseData, LoggingData
 from app.error_handlers.format import format_errors_message
 from app.settings.response import messages
+from app.bot.modules.proxies.childes.free_proxy.settings import FreeProxyResponse
 
 
 class FreeProxyAPI:
@@ -12,7 +13,9 @@ class FreeProxyAPI:
         self,
         type_proxy: str,
         logging_data: LoggingData,
-        limit_time_seconds: int = 120,
+        list_data_proxies: List[FreeProxyResponse],
+        free_proxy: FreeProxy,
+        limit_time_seconds: int = 90,
     ) -> NetworkResponseData:
         """
         Возвращает обьект NetworkResponseData, содержащий работающие прокси.
@@ -23,6 +26,9 @@ class FreeProxyAPI:
             type_proxy (str): Тип прокси('http' или 'https')
             logging_data (LoggingData): Обьекта класса LoggingData содержащий в себе
             логгеры и имя роутера
+            list_data_proxies (List[FreeProxyResponse]): Список содержащий в себе
+            обьекты класса FreeProxyResponse с данными прокси для запроса
+            free_proxy (FreeProxy): Класс FreeProxy для парсинга прокси
             limit_time_seconds (int, optional): Время отведенное на запрос
             в секундах. По умолчанию 120.
 
@@ -46,33 +52,6 @@ class FreeProxyAPI:
 
         url: str = FreeProxy().url
 
-        # Формируем нужные прокси для запроса
-        list_data_proxies = [
-            {
-                "rand": False,
-                "anonym": False,
-                "elite": False,
-                "title": f"Свежий {type_proxy} работающий прокси",
-            },
-            {
-                "rand": True,
-                "anonym": False,
-                "elite": False,
-                "title": f"Случайный {type_proxy} работающий прокси",
-            },
-            {
-                "rand": None,
-                "anonym": True,
-                "elite": None,
-                "title": f"Анонимный {type_proxy} работающий прокси",
-            },
-            {
-                "rand": None,
-                "anonym": None,
-                "elite": True,
-                "title": f"Элитный {type_proxy} работающий прокси",
-            },
-        ]
         # Стартовае время для ограничения запроса по времени
         start_time: float = time()
 
@@ -85,18 +64,23 @@ class FreeProxyAPI:
                 if current_time > limit_time_seconds:
                     break
 
-                # делаем запрос на получение
-                result_proxy = FreeProxy(
+                # делаем запрос на получение прокси
+                result_proxy = free_proxy(
                     https=https_data,
-                    rand=proxy["rand"],
-                    anonym=proxy["anonym"],
-                    elite=proxy["elite"],
+                    rand=proxy.rand,
+                    anonym=proxy.anonym,
+                    elite=proxy.elite,
                 ).get()
 
                 # Формируем строку с данными о прокси
-                str_proxies = f"{proxy['title']}\n{result_proxy}\n"
+                str_proxies = (
+                    f"{proxy.title.format(type_proxy=type_proxy)}\n{result_proxy}\n"
+                )
                 proxies_list.append(str_proxies)
-            except FreeProxyException as err:
+            except FreeProxyException(
+                message="В настоящее время рабочих прокси-серверов нет"
+            ) as err:
+
                 logging_data.info_logger.info(f"No proxy found: {err}")
                 message_error: str = "В настоящее время рабочих прокси-серверов нет.."
             except Exception as err:

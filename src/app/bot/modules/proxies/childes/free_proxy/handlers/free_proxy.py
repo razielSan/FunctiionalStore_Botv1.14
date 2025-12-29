@@ -6,6 +6,8 @@ from aiogram.fsm.context import FSMContext
 
 
 from app.bot.modules.proxies.childes.free_proxy.settings import settings
+from app.bot.modules.proxies.childes.free_proxy.logging import get_log
+from app.bot.modules.proxies.childes.free_proxy.extension import get_free_proxy
 from app.bot.modules.proxies.childes.free_proxy.keyboards.inline import (
     get_free_proxy_keyboards_inline_kb,
 )
@@ -13,6 +15,7 @@ from app.bot.modules.proxies.childes.free_proxy.services.free_proxy import (
     free_proxy_service,
 )
 from app.settings.response import messages
+
 
 router: Router = Router(name=__name__)
 
@@ -58,11 +61,11 @@ async def get_data_proxies(
     """
 
     chat_id: int = call.message.chat.id
-    
+
     # Встаем в состояние spam для овтета пользователю во время запроса
     await state.set_state(FSMFreeProxy.spam)
-    
-    #Удаляем инлайн клавиатуру
+
+    # Удаляем инлайн клавиатуру
     await call.message.edit_reply_markup(reply_markup=None)
 
     await bot.send_message(
@@ -74,9 +77,22 @@ async def get_data_proxies(
     # получаем тип прокси для запроса
     type_proxy: str = call.data.split(" ")[1]
 
+    progress_message = await call.message.answer(messages.WAIT_MESSAGE)
+
+    async def notifier(text: str):
+        try:
+            await progress_message.edit_text(text)
+        except Exception:
+            pass
+        
+    logging_data = get_log()
+
     free_proxy = await free_proxy_service.recieve(
         type_proxy=type_proxy,
-        message=call.message,
+        list_data_proxies=settings.LIST_DATA_PROXIES,
+        get_free_proxy=get_free_proxy,
+        notify_progress=notifier,
+        logging_data=logging_data,
     )
 
     await state.clear()

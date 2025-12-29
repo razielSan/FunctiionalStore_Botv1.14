@@ -109,7 +109,7 @@ def get_log() -> LoggingData:
         logging_data=logging_data,
     )
     """,
-    "extensions.py": ""
+    "extensions.py": "# Plug-in extensions are below"
 }
 
 TEMPLATATE_DIRS: List[str] = [
@@ -139,6 +139,7 @@ def create_module(
     keyboards/
     childes/
     __init__.py
+    extensions.py
     router.py
     settings.py
     response.py

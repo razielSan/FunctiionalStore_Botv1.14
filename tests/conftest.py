@@ -1,4 +1,5 @@
 import logging
+from dataclasses import dataclass
 
 import pytest
 from googleapiclient.errors import HttpError
@@ -78,3 +79,24 @@ def fake_youtube_service_success():
             }
 
     return FakeYoutubeSearch()
+
+
+@pytest.fixture
+def fake_free_proxy():
+    class FakeFreeProxy:
+        def __init__(
+            self,
+            https,
+            rand,
+            anonym,
+            elite,
+        ):
+            self.https = https
+            self.rand = rand
+            self.anonym = anonym
+            self.elite = elite
+
+        def get(self):
+            return "https" if self.https is True else "http"
+
+    return FakeFreeProxy

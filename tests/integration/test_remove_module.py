@@ -11,6 +11,7 @@ from app.core.logging import LoggerStorage
 from app.app_utils.filesistem import ensure_directories
 
 
+@pytest.mark.integration
 @pytest.mark.parametrize(
     "module",
     [

@@ -13,6 +13,7 @@ class NetworkResponseData(BaseModel):
     url: Optional[str] = None
     status: Optional[int] = None
     method: Optional[str] = None
+    headers: Optional[Any] = None
 
 
 class ResponseData(BaseModel):

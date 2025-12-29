@@ -1,4 +1,5 @@
 from app.core.response import ResponseData
+from urllib.parse import urlparse
 
 
 def checking_base64(data: str) -> bool:
@@ -38,3 +39,12 @@ def chek_number_is_positivity(number: str) -> ResponseData:
         return ResponseData(message=number)
     except Exception:
         return ResponseData(error="⚠ Данные должны быть целым числом")
+
+
+def is_valid_url(url: str) -> bool:
+    """Проверяет url на валидность."""
+    try:
+        parsed = urlparse(url)
+        return bool(parsed.scheme and parsed.netloc)
+    except Exception:
+        return False

@@ -1,4 +1,5 @@
 from typing import Dict
+from pathlib import Path
 
 from aiogram import Router, F, Bot
 from aiogram.types import Message, CallbackQuery, FSInputFile, ReplyKeyboardRemove
@@ -7,21 +8,29 @@ from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 
 from app.bot.modules.find_image.childes.find_name_image.settings import settings
-from app.bot.modules.find_image.childes.find_name_image.services.find_image_name import (
-    find_image_name_service,
+from app.bot.modules.find_image.childes.find_name_image.adapters import (
+    get_images_adapter,
+)
+from app.bot.modules.find_image.childes.find_name_image.extensions import (
+    Crawler,
+    Google,
+)
+from app.bot.modules.find_image.childes.find_name_image.services.find_name_image import (
+    find_name_image_service,
 )
 from app.bot.modules.find_image.childes.find_name_image.logging import get_log
 from app.settings.response import messages
 from app.app_utils.keyboards import get_reply_cancel_button
 from app.app_utils.chek import chek_number_is_positivity
 from app.app_utils.filesistem import delete_data
+from app.core.paths import APP_DIR
 
 
 router: Router = Router(name=__name__)
 
 
-class FSMFindImageName(StatesGroup):
-    """FSM для модели find_name_image"""
+class FSMFindImageIcrawler(StatesGroup):
+    """FSM для модели find_name_image (service icrawler)."""
 
     title: State = State()
     count: State = State()
@@ -42,11 +51,11 @@ async def find_image_name(call: CallbackQuery, state: FSMContext) -> None:
         text="🧑‍💻  Введите название изображения",
         reply_markup=get_reply_cancel_button(),
     )
-    await state.set_state(FSMFindImageName.title)
+    await state.set_state(FSMFindImageIcrawler.title)
 
 
-@router.message(FSMFindImageName.title, F.text == messages.CANCEL_TEXT)
-@router.message(FSMFindImageName.count, F.text == messages.CANCEL_TEXT)
+@router.message(FSMFindImageIcrawler.title, F.text == messages.CANCEL_TEXT)
+@router.message(FSMFindImageIcrawler.count, F.text == messages.CANCEL_TEXT)
 async def cancel_find_image_name_handler(
     message: Message,
     state: FSMContext,
@@ -67,7 +76,7 @@ async def cancel_find_image_name_handler(
     )
 
 
-@router.message(FSMFindImageName.spam, F.text)
+@router.message(FSMFindImageIcrawler.spam, F.text)
 async def get_message_is_state_spam(message: Message):
     """
     Отправка пользователю сообщения при вводе текста во время запроса.
@@ -77,7 +86,7 @@ async def get_message_is_state_spam(message: Message):
     await message.reply(text=messages.WAIT_MESSAGE)
 
 
-@router.message(FSMFindImageName.title, F.text)
+@router.message(FSMFindImageIcrawler.title, F.text)
 async def add_title(message: Message, state: FSMContext):
     """
     Просит пользователя ввести количество изображений.
@@ -87,15 +96,16 @@ async def add_title(message: Message, state: FSMContext):
 
     await state.update_data(title=message.text)
     await message.answer("🧑‍💻 Введите количество изображений для скачиания")
-    await state.set_state(FSMFindImageName.count)
+    await state.set_state(FSMFindImageIcrawler.count)
 
 
-@router.message(FSMFindImageName.count, F.text)
+@router.message(FSMFindImageIcrawler.count, F.text)
 async def get_image(
     message: Message,
     state: FSMContext,
     bot: Bot,
     get_main_keyboards,
+    session,
 ):
     """
     Отправляет пользователю архив с изображениями.
@@ -103,7 +113,7 @@ async def get_image(
     Работа с FSMFindImageName.
     """
     # Встаем в состояние spam для ответа пользователю при запроса
-    await state.set_state(FSMFindImageName.spam)
+    await state.set_state(FSMFindImageIcrawler.spam)
 
     count_images: str = message.text
     data: Dict = await state.get_data()
@@ -112,51 +122,112 @@ async def get_image(
     # Проверяем ввел ли пользователь пололжительное число
     count_images = chek_number_is_positivity(number=count_images)
     if count_images.message:
+
+        # Отправляем пользователю сообщение об ожидании ответа...
+        await message.answer(
+            f"{messages.WAIT_MESSAGE}",
+            reply_markup=ReplyKeyboardRemove(),
+        )
         logging_data = get_log()
 
-        # Делаем запрос в service на получения архива
-        archive_images = await find_image_name_service.recieve(
-            title_image=data["title"],
-            count_images=count_images.message,
-            message=message,
-            logging_data=logging_data,
+        # Временный путь до архива с картинками
+        path_archive: Path = (
+            APP_DIR
+            / "bot"
+            / "temp"
+            / Path(settings.NAME_FOR_TEMP_FOLDER)
+            / str(message.from_user.id)
         )
+
+
+        # Путь для сохранения архива
+        path_save: Path = APP_DIR / "bot" / "temp" / settings.NAME_FOR_TEMP_FOLDER
+
+        # Сообщение для отслеживания прогресса
+        progress_message: Message = await bot.send_message(
+            chat_id=chat_id,
+            text=f"📸 Загружено 0 из {count_images.message}",
+        )
+
+        # функция для отслеживания прогресса
+        async def notify_progress(
+            crawler_download: int = 0,
+            count_images: int = 0,
+            complete: bool = False,
+            source: str = "unknown",
+        ):
+            try:
+                if not complete:
+                    await progress_message.edit_text(
+                        text=f"📸 Источник - {source}. Загружено {crawler_download} из {count_images}",
+                    )
+                else:
+                    await progress_message.edit_text(
+                        f"✅ Готово! Источник - {source}. Загружено {crawler_download} изображений."
+                    )
+            except Exception as err:
+                print(err)
+
+        # Источники получения изображений
+        crawler: Crawler = Crawler(path=path_archive)
+        google: Google = Google(
+            query=data["title"],
+            api_key=settings.GOOGLE_API_KEY,
+            cx=settings.GOOGLE_CX,
+        )
+
         await state.clear()
-        if archive_images.message:
+        # проходимся по источниками изображений
+        for source in settings.IMAGE_SOURCES:
+            adapter = get_images_adapter(
+                source=source,
+                session=session,
+                google=google,
+                crawler=crawler,
+            )
+            # Делаем запрос в service на получения архива
+            archive_images = await find_name_image_service.recieve(
+                title_image=data["title"],
+                count_images=count_images.message,
+                logging_data=logging_data,
+                adapter=adapter,
+                path_archive=path_archive,
+                path_save=path_save,
+                notify_progress=notify_progress,
+                source=source,
+            )
+            if archive_images.message:
+                await message.answer("⏳ Идет выгрузка архива в телеграм....")
 
-            await message.answer("⏳ Идет выгрузка архива в телеграм....")
+                # Отправляем архив пользователю
+                await bot.send_document(
+                    chat_id=chat_id,
+                    document=FSInputFile(path=str(archive_images.message)),
+                    caption="Скаченные изображения",
+                    reply_markup=ReplyKeyboardRemove(),
+                )
+                await bot.send_message(
+                    chat_id=chat_id,
+                    text=messages.START_BOT_MESSAGE,
+                    reply_markup=get_main_keyboards,
+                )
 
-            # Отправляем архив пользователю
-            await bot.send_document(
-                chat_id=chat_id,
-                document=FSInputFile(path=str(archive_images.message)),
-                caption="Скаченные изображения",
-                reply_markup=ReplyKeyboardRemove(),
-            )
-            await bot.send_message(
-                chat_id=chat_id,
-                text=messages.START_BOT_MESSAGE,
-                reply_markup=get_main_keyboards,
-            )
-
-            # удаляем архив
-            archive = archive_images.message
-            delete_data(
-                list_path=[archive],
-                warning_logger=logging_data.warning_logger,
-            )
-        else:
-            await message.answer(
-                f"{archive_images.error}\n{messages.TRY_REPSONSE_MESSAGE}"
-            )
-            await bot.send_message(
-                chat_id=chat_id,
-                text=messages.START_BOT_MESSAGE,
-                reply_markup=get_main_keyboards,
-            )
+                # удаляем архив
+                archive = archive_images.message
+                delete_data(
+                    list_path=[archive],
+                    warning_logger=logging_data.warning_logger,
+                )
+                return
+        await message.answer(f"{archive_images.error}\n{messages.TRY_REPSONSE_MESSAGE}")
+        await bot.send_message(
+            chat_id=chat_id,
+            text=messages.START_BOT_MESSAGE,
+            reply_markup=get_main_keyboards,
+        )
 
     else:
-        await state.set_state(FSMFindImageName.count)
+        await state.set_state(FSMFindImageIcrawler.count)
         await message.answer(
             text=f"{count_images.error}\n🧑‍💻 "
             "Введите, снова, количество изображений для скачиания",

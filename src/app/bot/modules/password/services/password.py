@@ -6,7 +6,11 @@ from app.core.response import LoggingData, ResponseData
 
 class PasswordService:
     async def receive(
-        self, type_password: str, logging_data: LoggingData, step: int = 3
+        self,
+        type_password: str,
+        logging_data: LoggingData,
+        step: int = 3,
+        count_password: int = 15,
     ) -> ResponseData:
         """
         Application service для сценария генерации паролей.
@@ -28,6 +32,7 @@ class PasswordService:
         result_password: ResponseData = await func(
             password_hard=type_password,
             step=step,
+            count_password=count_password,
         )
         return result_password
 

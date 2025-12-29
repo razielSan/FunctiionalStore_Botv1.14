@@ -89,7 +89,6 @@ def get_button_for_forward_or_back(
     Returns:
         InlineKeyboardMarkup: Инлайн клавиатура
     """
-    print("Hello world")
     inline_kb: InlineKeyboardMarkup = InlineKeyboardBuilder()
     if indeх == 0:
         if len(list_data) == 1:

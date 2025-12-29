@@ -6,6 +6,7 @@ aiohttp
 free-proxy
 icrawler
 
+requests
 pytest
 pytest-asyncio
 pytest-aiohttp
