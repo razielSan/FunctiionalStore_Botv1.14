@@ -14,8 +14,7 @@ async def get_and_save_image(
     path_img: Path,
     session: ClientSession,
     logging_data: LoggingData,
-    base_64=False,
-    ext: bool = False,
+    base_64: bool = False,
 ) -> NetworkResponseData:
     """
     Сохраняет data_requests по указанному пути, если base_64 = True.

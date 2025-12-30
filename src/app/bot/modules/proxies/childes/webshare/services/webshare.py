@@ -14,6 +14,7 @@ class WebshareService:
 
         Отвечает за:
         - оркестрацию вызова WebshareAPI
+        - обработку ошибок
         - подготовку данных для handlers
 
         Не содержит логики взаимодействия с Telegram UI

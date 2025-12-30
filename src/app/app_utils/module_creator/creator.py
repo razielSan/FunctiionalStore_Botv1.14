@@ -131,7 +131,8 @@ def create_module(
     """
     Создает модуль и все вложенные модули
 
-    Архитетура модуля:
+    Архитектура модуля:
+    
     api/
     fsm/
     services/
@@ -147,7 +148,7 @@ def create_module(
 
     Args:
         list_path_modules (List[str]): Список из названий путей модулей.
-        Если модуль дочерний то название должно быть разделено childes/
+        Если модуль дочерний, то название должно быть разделено childes/
 
         Пример:
         ["video/childes/main", "audio]
@@ -180,10 +181,10 @@ def create_module(
         app.bot.modules
 
     Returns:
-        RepsonseData: обьект содержащий в себе
+        RepsonseData: объект содержащий в себе
 
         Атрибуты ResponseData:
-            - message (Any | None): Содержание ответа.None если произошла ошибка
+            - message (Any | None): Содержание ответа. None если произошла ошибка
             - error (str | None): Текст ошибки если есть если нет то None
     """
 
@@ -191,12 +192,12 @@ def create_module(
         # Проверка на childes
         for name in list_path_modules:
 
-            # Разделяем имя для добавление вложенных модулей
+            # Разделяем имя для добавления вложенных модулей
             parts: List[str] = name.replace("\\", "/").split("/")
 
             if parts[-1].lower() == "childes":
                 return ResponseData(
-                    error="childes используется для дочерних модулей.Укажите другое имя модуля",
+                    error="childes используется для дочерних модулей. Укажите другое имя модуля",
                     message=None,
                 )
 
@@ -303,8 +304,10 @@ def creates_new_modules_via_the_command_line(
 
     args:
         list_path_modules(List[str]): Список из имен путей модулей
+        
         Пример
         ['video/childes/main', "audio"]
+        
         module_path (Path):  Путь до папки с модулями
         root_package (str): Путь для импорта, начинается с корневой директории
 

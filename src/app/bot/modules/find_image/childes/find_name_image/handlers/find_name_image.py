@@ -139,7 +139,6 @@ async def get_image(
             / str(message.from_user.id)
         )
 
-
         # Путь для сохранения архива
         path_save: Path = APP_DIR / "bot" / "temp" / settings.NAME_FOR_TEMP_FOLDER
 
@@ -203,7 +202,7 @@ async def get_image(
                 await bot.send_document(
                     chat_id=chat_id,
                     document=FSInputFile(path=str(archive_images.message)),
-                    caption="Скаченные изображения",
+                    caption="🌆 Скачанные изображения",
                     reply_markup=ReplyKeyboardRemove(),
                 )
                 await bot.send_message(

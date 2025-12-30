@@ -25,7 +25,7 @@ class IcrawlerAdapter:
         count: int,
         path: Path,
         source: str,
-        logging_data: LoggingData,
+        logging_data: Optional[LoggingData] = None,
         notify_progress: Optional[Callable[[int, int, bool], Awaitable[None]]] = None,
     ) -> Union[NetworkResponseData, ResponseData]:
 
@@ -88,7 +88,7 @@ class GoogleAdapter:
         count: int,
         path: Path,
         source: str,
-        logging_data: Optional[LoggingData] = None,
+        logging_data: LoggingData,
         notify_progress: Optional[Callable[[int, int, bool], Awaitable[None]]] = None,
     ) -> Union[NetworkResponseData, ResponseData]:
 
@@ -151,6 +151,7 @@ def get_images_adapter(
     crawler: Crawler = None,
     session: ClientSession = None,
 ) -> Union[GoogleAdapter, IcrawlerAdapter]:
+    """Фабрика для создания адаптеров для модели find_name_image."""
     if source == "google":
         return GoogleAdapter(google=google, session=session)
     elif source == "icrawler":
@@ -163,8 +164,40 @@ class ImageSearchAdapter(Protocol):
         title: str,
         count: int,
         path: Path,
-        logging_data: str,
-        source_count: int,
+        source_count: Union[Crawler, Google],
+        logging_data: Optional[LoggingData] = None,
         notify_progress: Optional[Callable[[int, int, bool], Awaitable[None]]] = None,
-    ) -> None:
-        ...
+    ) -> Union[NetworkResponseData, ResponseData]:
+        """Протокол для адаптеров  модели find_name_image.
+
+        Выполняет запрос на получение изображений, если запрос прошел успешно то скачивает
+        изображения.Возвращает обьект класса NetworkResponseData содержащий количество
+        скаченных изображений.
+        Если запрос не прошел возращает обьект класса ResponseData содержащий ошибку.
+
+        Args:
+            title (str): Название изображения
+            count (int): Количество изображений
+            path (Path): Временный путь до архива с картинками
+            logging_data (Optional[LoggingData]): Обьект класса LoggingData содержащий логи и
+            имя роутера
+            source_count (int): Источник, который будет скачивать изображенияю.
+            Поддерживаются: Crawler, Google
+            notify_progress (Optional[Callable[[int, int, bool], Awaitable[None]]], optional):
+            функция для отслеживания прогресса
+
+        Returns:
+            NetworkResponseData: Объект с результатом запроса.
+
+            Атрибуты NetworkResponseData:
+                - message (Any | None): Данные успешного ответа (если запрос прошёл успешно).
+                - error (str | None): Описание ошибки, если запрос завершился неудачей.
+                - status (int): HTTP-код ответа. 0 — если ошибка возникла на клиентской стороне.
+                - url (str): URL, по которому выполнялся запрос.
+                - method (str): HTTP-метод, использованный при запросе.
+                - headers (dict): Заголовки ответа
+
+            ResponseData: Объект с результатом запроса.
+                - error: (str | None):  Описание ошибки, если запрос завершился неудачей.
+                - message: (Any | Nonr): Количество скачанных изображений (если запрос прошёл успешно)
+        """

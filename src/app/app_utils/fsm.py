@@ -38,12 +38,22 @@ def async_make_update_progress(state: FSMContext):
     """
     Возвращает функцию для отслеживания асинхронного прогресса скачивания.
 
+    Поддерживает состояние FSM:
+
+    FSM.cancel - Если при вызове функции в FSM.cancel будет какое то значение то
+    вернет False
+    FSM.counter_progress - каждый раз при вызове функции, counter_progress будет
+    увеличен на 1
+    FSM.data_state - При указании параметра data_state.Значение парметра будет 
+    добавлено в FSM
+
+
     Args:
         loop (_type_): Цикл событий
         state (FSMContext): Состояние В FSM для обновление прогресса
     """
 
-    async def update_progress(data_state: int = None):
+    async def update_progress(data_state=None):
         data: Dict = await state.get_data()
 
         if data.get("cancel"):

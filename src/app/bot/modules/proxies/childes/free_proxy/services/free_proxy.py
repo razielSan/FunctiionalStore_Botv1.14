@@ -1,5 +1,5 @@
 import asyncio
-from typing import List, Union
+from typing import List, Union, Callable, Awaitable
 from asyncio import Task
 
 from aiogram.types import Message
@@ -11,7 +11,6 @@ from app.bot.modules.proxies.childes.free_proxy.api.free_proxy import free_proxy
 from app.bot.modules.proxies.childes.free_proxy.settings import FreeProxyResponse
 from app.error_handlers.helpers import run_safe_inf_executror
 from app.core.response import ResponseData, NetworkResponseData, LoggingData
-from app.core.typing import ProgressNotifier
 from app.settings.response import messages
 
 
@@ -22,17 +21,17 @@ class FreePoxyService:
         list_data_proxies: List[FreeProxyResponse],
         get_free_proxy: FreeProxy,
         logging_data: LoggingData,
-        notify_progress: ProgressNotifier = None,
+        notify_progress: Callable[[str], Awaitable[None]] = None,
     ) -> Union[NetworkResponseData, ResponseData]:
         """
         Application service для сценария поиска изображений по названию.
 
         Отвечает за:
         - оркестрацию вызова FreeProxyAPI
+        - обработку ошибок
         - подготовку данных для handlers
 
-        Не содержит логики взаимодействия с Telegram UI,
-        кроме вспомогательных сообщений пользователю.
+        Не содержит логики взаимодействия с Telegram UI.
         """
 
         loop = asyncio.get_running_loop()

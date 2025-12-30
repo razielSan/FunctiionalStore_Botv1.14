@@ -14,7 +14,8 @@ def safe_async_execution(logging_data: Optional[LoggingData] = None):
     При ошибке в ходе выполнения функции выкидывает обьект класса ResponseData
 
     Args:
-        logger_data (Optional[LoggingData], optional): Класс содержащий логгер и имя роутера.По умолчанию None
+        logger_data (Optional[LoggingData], optional): Класс содержащий логгер и имя роутера. 
+        По умолчанию None
     """
 
     def decorator(function: Callable):

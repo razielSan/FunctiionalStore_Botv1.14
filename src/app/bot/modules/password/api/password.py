@@ -10,15 +10,15 @@ class PasswordAPI:
         self,
         password_hard: str,
         step: str = 3,
-        count_password: int = 15,
+        count_password: int = 20,
     ) -> ResponseData:
         """
-
         Генерирует сложный или простой пароль
 
         Args:
             password_hard (str): Тип сложности пароля
             step (str, optional): Шаг пароля[По умолчанию 3]. Допустимые варианты 1-4
+            count_password (int): Количество паролей. По умолчанию 15
 
         Returns:
             ResponseData: Объект с результатом запроса.

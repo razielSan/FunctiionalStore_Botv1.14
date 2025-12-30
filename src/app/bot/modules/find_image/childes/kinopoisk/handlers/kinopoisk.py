@@ -117,7 +117,7 @@ async def get_poster_kinopoisk(
         await bot.send_document(
             chat_id=chat_id,
             document=FSInputFile(path=archive),
-            caption="Скаченные изображения",
+            caption="🌆 Скачанные изображения",
             reply_markup=ReplyKeyboardRemove(),
         )
         await bot.send_message(

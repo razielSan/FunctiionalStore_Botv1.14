@@ -36,7 +36,7 @@ def setup_bot_logging(
         log_format (str): Формат записи в лог
         date_format (str): Временной формат записи в лог
         router_name (str, optional): Имя папки для конкретного роутера, если нужно,
-        если нет будет сохранятся в base_path
+        если нет, будет сохранятся в base_path
         root_path (bool, Optional):  По умолчанию(False) логгирует в папку по имени бота(
             True - логирует в глобальный лог
         )
@@ -45,14 +45,14 @@ def setup_bot_logging(
         Tuple[Logger, Logger, Logger]: Кортеж из логгеров
     """
 
-    # Формиурем имя для логгера
+    # Формируем имя для логгера
     logger_name: str = router_name if router_name else bot_name
 
     # Если root_path передан, пропускаем - логируем в глобальный лог
     # Если root_path по умолчанию(False) - логируем в папку по имени бота
     if not root_path:
         base_path: Path = base_path / bot_name  # Путь до папки с логами
-    # Если перадано имя конкретного роутера и логгер не ялвяется глобальным
+    # Если передано имя конкретного роутера и логгер не является глобальным
     if router_name and not root_path:
         base_path: Path = base_path / router_name
     info_path: Path = base_path / "info.log"

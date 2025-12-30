@@ -10,7 +10,7 @@ class PasswordService:
         type_password: str,
         logging_data: LoggingData,
         step: int = 3,
-        count_password: int = 15,
+        count_password: int = 20,
     ) -> ResponseData:
         """
         Application service для сценария генерации паролей.

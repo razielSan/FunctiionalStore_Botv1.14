@@ -25,6 +25,7 @@ class SearchYoutuveService:
         Отвечает за:
         - оркестрацию вызова YoutubeSearchAp
         - взаимодействие с googleapiclient
+        - обработку ошибок
         - подготовку данных для handlers
 
         Не содержит логики взаимодействия с Telegram UI.

@@ -33,10 +33,11 @@ class FindNameImageService:
         - управление временными файлами
         - упаковку результатов в архив
         - подготовку данных для handlers
+        - обработку ошибок
 
         Не содержит логики взаимодействия с Telegram UI
         """
-
+        
         result_adapter: Union[ResponseData, NetworkResponseData] = await adapter.start(
             title=title_image,
             count=count_images,

@@ -45,7 +45,7 @@ async def error_handler_for_the_website(
     Args:
         session (_type_): Асинхронная сессия запроса
         url (str): URL сайта
-        logging_data: (LoggingData): Класс содержащий логгер и имя роутера для логгирования
+        logging_data: (LoggingData): Класс содержащий логгер и имя роутера для логирования
         data_type (str, optional): Тип возвращаемых данных.По умолчанию JSON('JSON', 'TEXT', 'BYTES')
         timeout (int, optional): Таймаут запроса в секундах
         method (str, optional): Метод запроса. 'POST' или "GET"
@@ -76,7 +76,6 @@ async def error_handler_for_the_website(
             allow_redirects=True,
         ) as resp:
 
-            # Для удобного логгирования
             if resp.status in [403, 404]:
 
                 # Тело ответа запроса
@@ -113,6 +112,7 @@ async def error_handler_for_the_website(
                     error=error_message_str,
                     url=url,
                     method=resp.method,
+                    headers=resp.headers,
                 )
 
             elif resp.status != 200 and resp.status != 202:
@@ -136,6 +136,7 @@ async def error_handler_for_the_website(
                     error=messages.UNKNOWN_STATUS_ERROR,
                     url=url,
                     method=resp.method,
+                    headers=resp.headers,
                 )
             if data_type.upper() == "JSON":
                 message_body = await resp.json()

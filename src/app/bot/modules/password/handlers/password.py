@@ -51,7 +51,11 @@ async def get_message_is_state_spam(message: Message):
 
 @router.callback_query(F.data.startswith(f"{settings.CALLBACK_PREFIX}-"))
 async def get_buttons_step_passowrd(call: CallbackQuery):
+    """
+    Отправляет пользователю инлайн клавиатуру с выбором варианта сложности пароля.
 
+    Работа с FSMPassword.
+    """
     await call.message.edit_reply_markup(reply_markup=None)
 
     type_password = call.data.split("-")[1]  # достаем тип пароля
@@ -74,7 +78,6 @@ async def get_buttons_step_passowrd(call: CallbackQuery):
         ],
         quantity_button=2,
     )
-    print(f"{settings.CALLBACK_PREFIX} {type_password} 2")
     await call.message.answer(
         text="🚦 Выберите шаг для пароля",
         reply_markup=inline_kb,

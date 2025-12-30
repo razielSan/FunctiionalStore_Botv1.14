@@ -23,6 +23,9 @@ class WebshareAPI:
             url_config (str): URL для получения данных о пользователе
             url_proxeis_list (str): URL для получения списка  прокси
             api_key (str): API ключ
+            sesiion (aiohttp.ClinetSession): сессия для запроса
+            logging_data (LoggindData): Обьект класса LoggingData содержащий в себе
+            логгеры и имя роутера
 
         Returns:
             NetworkResponseData: Объект с результатом запроса.

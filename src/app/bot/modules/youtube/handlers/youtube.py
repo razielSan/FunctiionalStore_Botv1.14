@@ -12,6 +12,11 @@ router: Router = Router(name=__name__)
 
 @router.message(StateFilter(None), F.text == settings.MENU_REPLY_TEXT)
 async def youtube(message: Message, bot: Bot) -> None:
+    """
+    Главный обработчик для модуля youtube..
+
+    Возвращает инлайн клавиатуру с вариантами выбора.
+    """
     try:
         await bot.delete_message(
             chat_id=message.chat.id, message_id=message.message_id - 1

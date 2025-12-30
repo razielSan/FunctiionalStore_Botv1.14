@@ -19,4 +19,4 @@ async def run_bot() -> None:
             await dp.start_polling(telegram_bot)
 
     except Exception as err:
-        bot_error_logger.exception(f"Критическая ошибка при работа бота bot: {err}")
+        bot_error_logger.exception(f"Критическая ошибка при работа бота - bot: {err}")

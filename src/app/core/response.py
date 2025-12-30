@@ -1,4 +1,4 @@
-from typing import Optional, Any
+from typing import Optional, Any, Dict
 from dataclasses import dataclass
 from logging import Logger
 
@@ -13,7 +13,7 @@ class NetworkResponseData(BaseModel):
     url: Optional[str] = None
     status: Optional[int] = None
     method: Optional[str] = None
-    headers: Optional[Any] = None
+    headers: Optional[Dict] = None
 
 
 class ResponseData(BaseModel):
@@ -33,9 +33,10 @@ class LoggingData:
     router_name: str
 
 
-class InlineKeyboardData(BaseModel):
+@dataclass
+class InlineKeyboardData:
     """Модель для инлайн клавиатуры."""
 
     text: str
     callback_data: str
-    resize_keyboard: Optional[bool] = True
+    resize_keyboard: bool = True

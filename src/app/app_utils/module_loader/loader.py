@@ -44,10 +44,10 @@ def load_modules(
     try:
         modules: List = []  # список из ModuleInfo
         root_router: None = None  # корневой роутер текущего модуля
-        # Проходися по всем файлам содержащим router.py
+        # Проходимся по всем файлам содержащим router.py
         for router_file in modules_path.rglob("router.py"):
             module_dir: Path = router_file.parent
-            # ПРоверяем содержится ли в пути settings.py
+            # Проверяем содержится ли в пути settings.py
             settings_file: Path = module_dir / "settings.py"
             if not settings_file.exists():
                 continue
@@ -57,7 +57,7 @@ def load_modules(
             import_module: str = (
                 f"{root_package}.{rel_path.as_posix().replace('/', '.')}"
             )
-            # Безопасно имопртируем settings и router
+            # Безопасно импортируем settings и router
             settings_module = safe_import(
                 f"{import_module}.settings",
                 error_logger=error_logger,
@@ -157,18 +157,18 @@ def get_child_modules_settings_inline_data(
         Атрибуты InlineKeyboardData]:
                 - text (str): Текст инлайн клавиатуры
                 - callback_data (str): Callback_data инлайн клавиатуры
-                - resize_keyboard (bool, Optional): Подгон размера клавиатуры.True по умолчанию
+                - resize_keyboard (bool, Optional): Подгон размера клавиатуры. True по умолчанию
     """
 
     array_settings: List = []
 
-    # Ищем по папким внутри пути
+    # Ищем по папкам внутри пути
     for path in module_path.iterdir():
         # Если не папка то пропускаем
         if not path.is_dir():
             continue
 
-        # Есил в папке есть есть settings.py
+        # Если в папке есть settings.py
         settings_path: Path = path / "settings.py"
         if settings_path.exists():
 

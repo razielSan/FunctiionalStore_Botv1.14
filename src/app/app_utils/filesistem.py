@@ -68,7 +68,7 @@ def delete_data(
 
     Args:
         list_path (List[Path]): Список с путями до данных
-        warning_logger (Optional[Logger], optional): логгер для записи в лог(По умолчанию None)
+        warning_logger (Optional[Logger], optional): логгер для записи в лог. По умолчанию None
     """
     for path in list_path:
         try:
@@ -93,7 +93,7 @@ def make_archive(
     Создает архив по переданному пути.
 
     Args:
-        base_name (str): Путь сохранения архива.Содержит в себе имя архива без раширения
+        base_name (str): Путь сохранения архива.Содержит в себе имя архива без расширения
 
         Пример
         app/bot/temp/video/video
@@ -135,6 +135,6 @@ def make_archive(
             )
         )
         return ResponseData(
-            error="Ошибка при созданиии архива",
+            error="Ошибка при создании архива",
             message=None,
         )

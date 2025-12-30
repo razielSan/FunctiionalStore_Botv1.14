@@ -27,7 +27,7 @@ async def run_safe_inf_executror(
         loop (AbstractEventLoop): цикл событий
         func (Callable): функция для цикла
         logging_data (Optional[LoggingData], optional): обьект класс
-        LoggingData содержащий логгер и имя роутера.None по умолчанию
+        LoggingData содержащий логгер и имя роутера. None по умолчанию
 
     Returns:
         Union[Any, NetworkResponseData]: Возвращает loop.run_in_executor
