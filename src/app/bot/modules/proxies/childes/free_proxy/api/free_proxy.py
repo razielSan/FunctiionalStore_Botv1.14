@@ -77,10 +77,7 @@ class FreeProxyAPI:
                     f"{proxy.title.format(type_proxy=type_proxy)}\n{result_proxy}\n"
                 )
                 proxies_list.append(str_proxies)
-            except FreeProxyException(
-                message="В настоящее время рабочих прокси-серверов нет"
-            ) as err:
-
+            except FreeProxyException as err:
                 logging_data.info_logger.info(f"No proxy found: {err}")
                 message_error: str = "В настоящее время рабочих прокси-серверов нет.."
             except Exception as err:

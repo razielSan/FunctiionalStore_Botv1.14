@@ -9,7 +9,7 @@ from app.settings.response import telegam_emogi
 class ModuleSettings(BaseSettings):
     SERVICE_NAME: str = "find_image.childes.kinopoisk"
     MENU_REPLY_TEXT: str = "find_image.childes.kinopoisk"
-    MENU_CALLBACK_TEXT: str = f"{telegam_emogi.digit_2} Обложки Фильмов С Kinopoisk"
+    MENU_CALLBACK_TEXT: str = f"{telegam_emogi.digit_2} Обложки Фильмов (Kinopoisk)"
     MENU_CALLBACK_DATA: str = "find_image.childes.kinopoisk"
     NAME_FOR_TEMP_FOLDER: str = "find_image/childes/kinopoisk"
     ROOT_PACKAGE: str = "app.bot.modules.find_image.childes.kinopoisk"

@@ -6,6 +6,7 @@ from app.bot.modules.youtube.childes.search.services.search import (
 from app.bot.modules.youtube.childes.search.settings import settings
 
 
+@pytest.mark.unit
 @pytest.mark.asyncio
 async def test_youtube_search_service_not_found(
     fake_logging_data, fake_youtube_service_empty
@@ -26,6 +27,7 @@ async def test_youtube_search_service_not_found(
     assert result.status == 200
 
 
+@pytest.mark.unit
 @pytest.mark.asyncio
 async def test_youtube_search_service_http_errors(
     fake_logging_data, fake_youtube_service_http_errors
@@ -45,6 +47,7 @@ async def test_youtube_search_service_http_errors(
     assert result.message is None
 
 
+@pytest.mark.unit
 @pytest.mark.asyncio
 async def test_youtube_search_service_success(
     fake_logging_data, fake_youtube_service_success

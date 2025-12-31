@@ -175,7 +175,6 @@ async def get_image(
             cx=settings.GOOGLE_CX,
         )
 
-        await state.clear()
         # проходимся по источниками изображений
         for source in settings.IMAGE_SOURCES:
             adapter = get_images_adapter(
@@ -196,6 +195,7 @@ async def get_image(
                 source=source,
             )
             if archive_images.message:
+                await state.clear()
                 await message.answer("⏳ Идет выгрузка архива в телеграм....")
 
                 # Отправляем архив пользователю
@@ -218,6 +218,7 @@ async def get_image(
                     warning_logger=logging_data.warning_logger,
                 )
                 return
+        await state.clear()
         await message.answer(f"{archive_images.error}\n{messages.TRY_REPSONSE_MESSAGE}")
         await bot.send_message(
             chat_id=chat_id,

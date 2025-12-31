@@ -99,8 +99,8 @@ class KinopoiskService:
                 headers=HEADERS,
                 logging_data=logging_data,
             )
-            if poster_response.error:
-                return poster_response
+            if poster_response.error:  # если произошла ошибка - пропускаем итерацию
+                continue
             poster = poster_response.message["docs"][0].get("poster", None)
             # Если постер существует для фильма
             if poster:

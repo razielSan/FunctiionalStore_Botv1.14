@@ -1,14 +1,22 @@
 from typing import Union
 
-from app.bot.modules.proxies.childes.webshare.logging import get_log
+from aiohttp import ClientSession
+
 from app.error_handlers.decorator import safe_async_execution
-from app.bot.modules.proxies.childes.webshare.api.webshare import webshare_api
-from app.bot.modules.proxies.childes.webshare.settings import settings
-from app.core.response import NetworkResponseData, ResponseData
+from app.bot.modules.proxies.childes.webshare.api.webshare import WebshareApiProtocol
+from app.core.response import NetworkResponseData, ResponseData, LoggingData
 
 
 class WebshareService:
-    async def receive(self, session) -> Union[NetworkResponseData, ResponseData]:
+    async def recieve(
+        self,
+        api_key: str,
+        url_config: str,
+        url_proxies_list: str,
+        logging_data: LoggingData,
+        session: ClientSession,
+        webshare_api: WebshareApiProtocol,
+    ) -> Union[NetworkResponseData, ResponseData]:
         """
         Application service для сценария поиска изображений по названию.
 
@@ -19,21 +27,20 @@ class WebshareService:
 
         Не содержит логики взаимодействия с Telegram UI
         """
-        log = get_log()
 
         #  Отлавливаем все возмоэжные ошибки
         decorator_function = safe_async_execution(
-            logging_data=log,
+            logging_data=logging_data,
         )
         func = decorator_function(webshare_api.get_proxies)
 
         # Получаем прокси
         proxies_data: Union[NetworkResponseData, ResponseData] = await func(
-            api_key=settings.ApiKey,
-            url_config=settings.URL_CONFIG,
-            url_proxeis_list=settings.URL_PROXIES_LIST,
+            api_key=api_key,
+            url_config=url_config,
+            url_proxeis_list=url_proxies_list,
             session=session,
-            logging_data=log,
+            logging_data=logging_data,
         )
 
         return proxies_data

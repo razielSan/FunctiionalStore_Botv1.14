@@ -3,7 +3,7 @@ from aiogram.types import CallbackQuery
 from aiogram.filters.state import StateFilter
 
 from app.bot.modules.ip.childes.telegram.settings import settings
-from app.bot.modules.ip.childes.telegram.api.ip import telegram_api
+from app.bot.modules.ip.childes.telegram.api.telegram import telegram_api
 
 
 router: Router = Router(name=__name__)

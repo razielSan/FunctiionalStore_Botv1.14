@@ -36,21 +36,30 @@ def sync_make_update_progress(loop, state: FSMContext) -> Callable:
 
 def async_make_update_progress(state: FSMContext):
     """
-    Возвращает функцию для отслеживания асинхронного прогресса скачивания.
+    Фабрика асинхронной функции для обновления прогресса операции в FSM.
 
-    Поддерживает состояние FSM:
+    Возвращаемая функция предназначена для многократного вызова во время
+    длительной асинхронной операции (например, скачивания или обработки данных)
+    и управляет состоянием FSM.
 
-    FSM.cancel - Если при вызове функции в FSM.cancel будет какое то значение то
-    вернет False
-    FSM.counter_progress - каждый раз при вызове функции, counter_progress будет
-    увеличен на 1
-    FSM.data_state - При указании параметра data_state.Значение парметра будет 
-    добавлено в FSM
-
+    Контракт FSM:
+        - cancel (bool | None):
+            Если установлен в True, возвращаемая функция завершает работу
+            и возвращает False.
+        - counter_progress (int):
+            Счётчик прогресса. Увеличивается на 1 при каждом успешном вызове.
+        - data_state (Any | None):
+            При передаче параметра data_state значение сохраняется в FSM.
 
     Args:
-        loop (_type_): Цикл событий
-        state (FSMContext): Состояние В FSM для обновление прогресса
+        state (FSMContext): Контекст FSM для хранения состояния прогресса.
+
+    Returns:
+        Callable[[Any | None], Awaitable[bool]]:
+            Асинхронная функция update_progress(data_state=None),
+            возвращающая:
+                - True — если обновление прошло успешно
+                - False — если операция была отменена через FSM
     """
 
     async def update_progress(data_state=None):

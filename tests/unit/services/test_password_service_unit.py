@@ -5,6 +5,7 @@ from app.bot.modules.password.settings import settings
 from app.core.tests.response import PasswordTest
 
 
+@pytest.mark.unit
 @pytest.mark.asyncio
 @pytest.mark.parametrize(
     "password",

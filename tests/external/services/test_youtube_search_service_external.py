@@ -24,7 +24,7 @@ API_KEY = dotenv_values(
 )["API_KEY"]
 
 
-@pytest.mark.integration
+@pytest.mark.external
 @pytest.mark.asyncio
 async def test_youtube_search_service_success(
     fake_logging_data,
@@ -48,7 +48,7 @@ async def test_youtube_search_service_success(
     assert len(result.message) == 1
 
 
-@pytest.mark.integration
+@pytest.mark.external
 @pytest.mark.asyncio
 async def test_youtube_search_service_not_found(
     fake_logging_data,

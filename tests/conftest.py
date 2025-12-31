@@ -1,10 +1,20 @@
 import logging
-from dataclasses import dataclass
 
 import pytest
+import pytest_asyncio
 from googleapiclient.errors import HttpError
+from fp.fp import  FreeProxyException
+import aiohttp
+
 
 from app.core.response import LoggingData
+
+
+@pytest_asyncio.fixture
+async def session():
+    """Создает и предоставляет асинхронную сессию для каждого теста."""
+    async with aiohttp.ClientSession() as session:
+        yield session  # Предоставляем сессию тестовой функции
 
 
 @pytest.fixture
@@ -100,3 +110,24 @@ def fake_free_proxy():
             return "https" if self.https is True else "http"
 
     return FakeFreeProxy
+
+
+@pytest.fixture
+def fake_free_proxy_error():
+    class FakeFreeProxyError:
+        def __init__(
+            self,
+            https,
+            rand,
+            anonym,
+            elite,
+        ):
+            self.https = https
+            self.rand = rand
+            self.anonym = anonym
+            self.elite = elite
+
+        def get(self):
+            raise FreeProxyException(message="test")
+
+    return FakeFreeProxyError

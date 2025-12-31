@@ -7,7 +7,10 @@ import aiohttp
 
 from app.bot.modules.proxies.childes.webshare.settings import settings
 from app.bot.modules.proxies.childes.webshare.services.webshare import webshare_service
+from app.bot.modules.proxies.childes.webshare.api.webshare import webshare_api
 from app.settings.response import messages
+from app.bot.modules.proxies.childes.webshare.logging import get_log
+from app.bot.modules.proxies.childes.webshare.settings import settings
 
 
 router: Router = Router(name=__name__)
@@ -48,8 +51,17 @@ async def webshare(
         reply_markup=ReplyKeyboardRemove(),
     )
 
+    logging_data = get_log()
+
     # Получаем прокси
-    proxies_data = await webshare_service.receive(session=session)
+    proxies_data = await webshare_service.recieve(
+        session=session,
+        logging_data=logging_data,
+        api_key=settings.ApiKey,
+        url_config=settings.URL_CONFIG,
+        url_proxies_list=settings.URL_PROXIES_LIST,
+        webshare_api=webshare_api,
+    )
     await state.clear()
     if proxies_data.message:
         await bot.send_message(

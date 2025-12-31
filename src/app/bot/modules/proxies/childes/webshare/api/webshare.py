@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Protocol
 import aiohttp
 
 from app.core.response import NetworkResponseData, LoggingData
@@ -13,6 +13,7 @@ class WebshareAPI:
         api_key: str,
         session: aiohttp.ClientSession,
         logging_data: LoggingData,
+        timeout: int = 15
     ) -> NetworkResponseData:
         """
         Возврщает обьект ResponseData содержащий строку с 10 прокси.
@@ -45,6 +46,7 @@ class WebshareAPI:
                 "Authorization": f"{api_key}",
             },
             logging_data=logging_data,
+            timeout=timeout,
         )
 
         if response_token.error:
@@ -79,6 +81,19 @@ class WebshareAPI:
             method=response_proxies.method,
             url=response_proxies.url,
         )
+
+
+class WebshareApiProtocol(Protocol):
+    """Протокол для WebshareAPi"""
+
+    async def get_proxies(
+        url_config: str,
+        url_proxeis_list: str,
+        api_key: str,
+        session: aiohttp.ClientSession,
+        logging_data: LoggingData,
+    ) -> NetworkResponseData:
+        pass
 
 
 webshare_api: WebshareAPI = WebshareAPI()

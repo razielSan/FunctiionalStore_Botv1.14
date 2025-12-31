@@ -3,10 +3,10 @@ from pathlib import Path
 import pytest
 
 from app.app_utils.module_creator.creator import create_module
-from app.app_utils.module_remover.remover import remove_module
 from app.core.response import ResponseData
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "modules",
     [
@@ -67,6 +67,7 @@ def test_create_module(tmp_path: Path, modules):
         assert f"Router(name='{module_name_formatted}')" in content
 
 
+@pytest.mark.unit
 @pytest.mark.parametrize(
     "modules",
     [

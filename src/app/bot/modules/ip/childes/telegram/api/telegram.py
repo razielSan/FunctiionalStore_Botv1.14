@@ -11,7 +11,7 @@ class TeleramAPI:
         first_name: str,
         user_name: str,
         last_name: Optional[str],
-    ) -> str:
+    ) -> ResponseData:
         """
 
         Функция для получения информации о пользователе
