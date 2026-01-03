@@ -5,7 +5,7 @@ from app.core.response import LoggingData, ResponseData
 
 
 class PasswordService:
-    async def receive(
+    async def recieve(
         self,
         type_password: str,
         logging_data: LoggingData,

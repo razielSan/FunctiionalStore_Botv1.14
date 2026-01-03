@@ -9,7 +9,7 @@ from app.settings.response import telegam_emogi
 class ModuleSettings(BaseSettings):
     SERVICE_NAME: str = "weather_forecast.childes.weather"
     MENU_REPLY_TEXT: str = "weather_forecast.childes.weather"
-    MENU_CALLBACK_TEXT: str = f"{telegam_emogi.digit_1} Прогноз Погоды"
+    MENU_CALLBACK_TEXT: str = f"{telegam_emogi.digit_2} Прогноз Погоды"
     MENU_CALLBACK_DATA: str = "weather_forecast.childes.weather"
     NAME_FOR_TEMP_FOLDER: str = "weather_forecast/childes/weather"
     ROOT_PACKAGE: str = "app.bot.modules.weather_forecast.childes.weather"
@@ -52,7 +52,7 @@ class ModuleSettings(BaseSettings):
     )
 
 
-class WeatherTranslation:
+class WeatherTranslationSettings:
     weather_translation: Dict = {
         "Thunderstorm": {
             "thunderstorm with light rain": ["гроза с небольшим дождём", "⛈️"],
@@ -124,5 +124,5 @@ class WeatherTranslation:
     }
 
 
-weather_translation = WeatherTranslation()
+weather_translation_settings = WeatherTranslationSettings()
 settings = ModuleSettings()

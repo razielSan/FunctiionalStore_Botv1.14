@@ -32,12 +32,14 @@ class FindNameImageService:
         - оркестрацию вызова IcrawlerAdapter, GoogleAdapter
         - управление временными файлами
         - упаковку результатов в архив
+        - удаление всех изображений из временной папки
+        - удаление временной папки
         - подготовку данных для handlers
         - обработку ошибок
 
-        Не содержит логики взаимодействия с Telegram UI
+        Не содержит логики взаимодействия с Telegram UI.
         """
-        
+
         result_adapter: Union[ResponseData, NetworkResponseData] = await adapter.start(
             title=title_image,
             count=count_images,
@@ -47,7 +49,6 @@ class FindNameImageService:
             source=source,
         )
         if result_adapter.message or result_adapter.message == 0:
-            print("service", result_adapter.message)
             if result_adapter.message == 0:  # если не найдено ни одного изображения
                 logging_data.info_logger.info(
                     format_errors_message(
@@ -78,7 +79,7 @@ class FindNameImageService:
             if result_api.message:
                 result_api.message = path_save / f"{title_image}.zip"
 
-            # удаляем все изображения из временной
+            # удаляем все изображения из временной папки
             delete_all_files_and_symbolik_link(
                 path_folder=path_archive,
                 logging_data=logging_data,

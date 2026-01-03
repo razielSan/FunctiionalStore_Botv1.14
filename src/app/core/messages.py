@@ -56,4 +56,7 @@ class TelegramEmoji(BaseModel):
     digit_7: str = "7⃣"
     digit_8: str = "8⃣"
     digit_9: str = "9⃣"
+
     pencil: str = "✏"
+    red_cross: str = "❌"
+    yellow_triangle_with_exclamation_mark: str = "⚠"

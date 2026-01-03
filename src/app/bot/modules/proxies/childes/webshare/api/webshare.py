@@ -27,6 +27,7 @@ class WebshareAPI:
             sesiion (aiohttp.ClinetSession): сессия для запроса
             logging_data (LoggindData): Обьект класса LoggingData содержащий в себе
             логгеры и имя роутера
+            timeout (int): Таймаут для запроса. По дефолту 15
 
         Returns:
             NetworkResponseData: Объект с результатом запроса.

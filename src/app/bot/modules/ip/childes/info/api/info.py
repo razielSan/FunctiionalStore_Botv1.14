@@ -31,9 +31,9 @@ class InfoApi:
             имя роутера
 
         Returns:
-            ResponseData: Объект с результатом запроса.
+            NetworkResponseData: Объект с результатом запроса.
 
-            Атрибуты ResponseData:
+            Атрибуты NetworkResponseData:
                 - message (Any | None): List c путем до флага страны и строкой
                   с информацией по ip (если запрос прошёл успешно).
                 - error (str | None): Описание ошибки, если запрос завершился неудачей.
@@ -44,7 +44,7 @@ class InfoApi:
         """
 
         # делаем зпроса на получение информации по ip
-        response_ip = await error_handler_for_the_website(
+        response_ip: NetworkResponseData = await error_handler_for_the_website(
             session=session,
             url=url,
             logging_data=logging_data,

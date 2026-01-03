@@ -57,7 +57,8 @@ class IcrawlerAdapter:
 
                 last_count = crawler_download
 
-        result_crawler = await crawl_task
+        result_crawler: Optional[ResponseData] = await crawl_task
+
         if result_crawler is None:  # если не произошло ошибки
             # Сообщаем пользователю об успешном завершении поиска
             if notify_progress:
@@ -95,7 +96,7 @@ class GoogleAdapter:
         loop = asyncio.get_running_loop()
 
         # формируем Task для отслеживания прогресса
-        result_crawler = await run_safe_inf_executror(
+        result_crawler: Optional[ResponseData] = await run_safe_inf_executror(
             loop,
             self.google.search_with_google_client,
         )
@@ -134,6 +135,7 @@ class GoogleAdapter:
                     crawler_download=saved,
                     source=source,
                 )
+
             return NetworkResponseData(
                 message=saved,
                 url="<unknown>",

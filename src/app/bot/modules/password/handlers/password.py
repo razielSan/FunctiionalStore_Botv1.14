@@ -50,7 +50,7 @@ async def get_message_is_state_spam(message: Message):
 
 
 @router.callback_query(F.data.startswith(f"{settings.CALLBACK_PREFIX}-"))
-async def get_buttons_step_passowrd(call: CallbackQuery):
+async def get_buttons_step_password(call: CallbackQuery):
     """
     Отправляет пользователю инлайн клавиатуру с выбором варианта сложности пароля.
 
@@ -116,7 +116,7 @@ async def get_generate_passwords(
     logging_data: LoggingData = get_log()
 
     # делаем запрос в service на получение паролей
-    password: ResponseData = await password_service.receive(
+    password: ResponseData = await password_service.recieve(
         type_password=type_passowrd, step=step, logging_data=logging_data
     )
     await state.clear()

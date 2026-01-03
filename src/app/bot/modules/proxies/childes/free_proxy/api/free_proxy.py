@@ -73,7 +73,7 @@ class FreeProxyAPI:
                 ).get()
 
                 # Формируем строку с данными о прокси
-                str_proxies = (
+                str_proxies: str = (
                     f"{proxy.title.format(type_proxy=type_proxy)}\n{result_proxy}\n"
                 )
                 proxies_list.append(str_proxies)

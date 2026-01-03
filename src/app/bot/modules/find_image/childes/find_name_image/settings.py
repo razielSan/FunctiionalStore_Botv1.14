@@ -19,8 +19,8 @@ class ModuleSettings(BaseSettings):
     GOOGLE_API_KEY: Optional[str] = None
 
     IMAGE_SOURCES: List[str] = [
-        "google",
         "icrawler",
+        "google",
     ]
 
     model_config = SettingsConfigDict(

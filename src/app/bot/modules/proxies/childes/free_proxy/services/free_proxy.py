@@ -24,7 +24,7 @@ class FreePoxyService:
         notify_progress: Callable[[str], Awaitable[None]] = None,
     ) -> Union[NetworkResponseData, ResponseData]:
         """
-        Application service для сценария поиска изображений по названию.
+        Application service для сценария поиска прокси.
 
         Отвечает за:
         - оркестрацию вызова FreeProxyAPI

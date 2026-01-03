@@ -2,7 +2,7 @@ from typing import Dict, Union
 
 from aiohttp import ClientSession
 from app.core.response import LoggingData
-from app.bot.modules.weather_forecast.childes.weather.api.weather_open_wp import (
+from app.bot.modules.weather_forecast.childes.weather.api.weather_openwm import (
     WeatherOpenWPApiProtocol,
 )
 from app.error_handlers.decorator import safe_async_execution
@@ -19,14 +19,14 @@ class WeatherService:
         weather_translation: Dict,
         session: ClientSession,
         logging_data: LoggingData,
-        weather_open_wp_api: WeatherOpenWPApiProtocol,
+        weather_openwm_api: WeatherOpenWPApiProtocol,
         future: bool = False,
     ) -> Union[ResponseData, NetworkResponseData]:
         """
-        Application service для сценария поиска изображений по названию.
+        Application service для сценария отправки пользователю прогноза погоды.
 
         Отвечает за:
-        - оркестрацию вызова WeatherApi
+        - оркестрацию вызова WeatherOpenWMApi
         - обработку ошибок
         - подготовку данных для handlers
 
@@ -35,7 +35,7 @@ class WeatherService:
 
         decorator_function = safe_async_execution(logging_data=logging_data)
         func = decorator_function(
-            weather_open_wp_api.get_data_weather_forecast_with_openweathermap
+            weather_openwm_api.get_data_weather_forecast
         )
 
         result_weather: Union[NetworkResponseData, ResponseData] = await func(

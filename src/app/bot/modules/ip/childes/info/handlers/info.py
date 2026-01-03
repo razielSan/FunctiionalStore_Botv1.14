@@ -1,3 +1,5 @@
+from typing import Union
+
 from aiogram import Router, F, Bot
 from aiogram.types import CallbackQuery, Message, FSInputFile, ReplyKeyboardRemove
 from aiogram.filters.state import StateFilter
@@ -12,7 +14,7 @@ from app.bot.modules.ip.childes.info.logging import get_log
 from app.bot.core.paths import bot_path
 from app.settings.response import messages
 from app.app_utils.keyboards import get_reply_cancel_button
-
+from app.core.response import ResponseData, NetworkResponseData
 
 router: Router = Router(name=__name__)
 
@@ -25,7 +27,7 @@ class FSMInfoIP(StatesGroup):
 
 
 @router.callback_query(StateFilter(None), F.data == settings.MENU_CALLBACK_DATA)
-async def kinopoisk(
+async def info(
     call: CallbackQuery,
     state: FSMContext,
 ) -> None:
@@ -103,7 +105,7 @@ async def get_ip_information(
         return
     ip: str = str(ip.any_ip)
     logging_data = get_log()
-    ip_info = await info_service.recieve(
+    ip_info: Union[ResponseData, NetworkResponseData] = await info_service.recieve(
         url=settings.ULR_IP_INFO.format(ip=ip, access_key=settings.ACCESS_KEY),
         path_folder_flag_country=bot_path.FLAG_DIR,
         path_folder_none_flag_img=bot_path.PATH_IMG_FLAG_NONE,

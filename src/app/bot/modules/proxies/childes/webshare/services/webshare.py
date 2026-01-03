@@ -18,7 +18,7 @@ class WebshareService:
         webshare_api: WebshareApiProtocol,
     ) -> Union[NetworkResponseData, ResponseData]:
         """
-        Application service для сценария поиска изображений по названию.
+        Application service для сценария отправки пользователю списка прокси.
 
         Отвечает за:
         - оркестрацию вызова WebshareAPI

@@ -11,9 +11,9 @@ router: Router = Router(name=__name__)
 
 
 @router.message(StateFilter(None), F.text == settings.MENU_REPLY_TEXT)
-async def youtube(message: Message, bot: Bot) -> None:
+async def weather_forecast(message: Message, bot: Bot) -> None:
     """
-    Главный обработчик для модуля youtube..
+    Главный обработчик для модуля weather_forecast..
 
     Возвращает инлайн клавиатуру с вариантами выбора.
     """

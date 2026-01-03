@@ -6,8 +6,8 @@ from app.error_handlers.network import error_handler_for_the_website
 from aiohttp import ClientSession
 
 
-class WeatherOpenWPApi:
-    async def get_data_weather_forecast_with_openweathermap(
+class WeatherOpenWMApi:
+    async def get_data_weather_forecast(
         self,
         city: str,
         url_geolocated_openweathermap: str,
@@ -40,14 +40,15 @@ class WeatherOpenWPApi:
 
 
         Returns:
-            ResponseData: Объект с результатом запроса.
+            NetworkResponseData: Объект с результатом запроса.
 
-            Атрибуты ResponseData:
+            Атрибуты NetworkResponseData:
                 - message (Any | None): Строка с прогнозом погоды (если запрос прошёл успешно).
                 - error (str | None): Описание ошибки, если запрос завершился неудачей.
                 - status (int): HTTP-код ответа. 0 — если ошибка возникла на клиентской стороне.
                 - url (str): URL, по которому выполнялся запрос.
                 - method (str): HTTP-метод, использованный при запросе.
+                - headers (dict | None): заголовки запроса
         """
 
         # Получаем данные геолокации для города
@@ -174,4 +175,4 @@ class WeatherOpenWPApiProtocol(Protocol):
         """Протокол для WeatherApi."""
 
 
-weather_open_wp_api: WeatherOpenWPApi = WeatherOpenWPApi()
+weather_openwm_api: WeatherOpenWMApi = WeatherOpenWMApi()

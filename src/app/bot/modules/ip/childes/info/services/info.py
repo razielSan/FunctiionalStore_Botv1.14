@@ -1,8 +1,9 @@
-from typing import Callable
 from pathlib import Path
+from typing import Union
 
 from app.error_handlers.decorator import safe_async_execution
 from app.bot.modules.ip.childes.info.api.info import InfoApiProtocol
+from app.core.response import ResponseData, NetworkResponseData
 
 
 class InfoService:
@@ -14,7 +15,7 @@ class InfoService:
         session,
         logging_data,
         info_api: InfoApiProtocol,
-    ):
+    ) -> Union[ResponseData, NetworkResponseData]:
         """
         Application service для сценария выдачи информации по ip.
 
@@ -28,7 +29,7 @@ class InfoService:
         decorator_function = safe_async_execution(logging_data=logging_data)
         func = decorator_function(info_api.get_ip_info)
 
-        ip_info = await func(
+        ip_info: Union[ResponseData, NetworkResponseData] = await func(
             url=url,
             path_folder_flag_country=path_folder_flag_country,
             path_folder_none_flag_img=path_folder_none_flag_img,

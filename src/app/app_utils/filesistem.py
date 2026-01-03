@@ -6,6 +6,7 @@ import os
 
 from app.core.response import ResponseData, LoggingData
 from app.error_handlers.format import format_errors_message
+from app.settings.response import telegam_emogi
 
 
 def ensure_directories(
@@ -135,6 +136,6 @@ def make_archive(
             )
         )
         return ResponseData(
-            error="Ошибка при создании архива",
+            error=f"{telegam_emogi.red_cross} Ошибка при создании архива",
             message=None,
         )

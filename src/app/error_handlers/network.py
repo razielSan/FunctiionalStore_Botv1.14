@@ -75,7 +75,6 @@ async def error_handler_for_the_website(
             json=json,
             allow_redirects=True,
         ) as resp:
-
             if resp.status in [403, 404]:
 
                 # Тело ответа запроса

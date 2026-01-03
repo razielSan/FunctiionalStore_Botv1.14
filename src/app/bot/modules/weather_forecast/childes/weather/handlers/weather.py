@@ -8,11 +8,11 @@ from aiogram.fsm.state import State, StatesGroup
 
 from app.bot.modules.weather_forecast.childes.weather.settings import (
     settings,
-    weather_translation,
+    weather_translation_settings,
 )
 from app.bot.modules.weather_forecast.childes.weather.logging import get_log
-from app.bot.modules.weather_forecast.childes.weather.api.weather_open_wp import (
-    weather_open_wp_api,
+from app.bot.modules.weather_forecast.childes.weather.api.weather_openwm import (
+    weather_openwm_api,
 )
 from app.app_utils.keyboards import get_total_buttons_inline_kb
 from app.core.response import InlineKeyboardData
@@ -31,12 +31,14 @@ class FSMWeather(StatesGroup):
     """FSM для модели weather."""
 
     spam: State = State()
-    future: State = State() # флаг для проверки прогноза погоды на 5 днеий или на текущий
+    future: State = (
+        State()
+    )  # флаг для проверки прогноза погоды на 5 днеий или на текущий
     city: State = State()
 
 
 @router.message(FSMWeather.city, F.text == messages.CANCEL_TEXT)
-async def cancel_find_image_name_handler(
+async def cancel_weather_handler(
     message: Message,
     state: FSMContext,
     bot: Bot,
@@ -72,8 +74,8 @@ async def weather(
 ) -> None:
     """
     Выводит инлайн клавиатуру пользователя для выбора вариантов погоды.
-    
-    Работа с FSMWeather
+
+    Работа с FSMWeathe.
     """
 
     await call.message.edit_reply_markup(reply_markup=None)
@@ -101,7 +103,7 @@ async def weather(
 async def add_city(call: CallbackQuery, state: FSMContext):
     """
     Просит пользователя ввести название города.
-    
+
     Работа с FSMWeather
     """
 
@@ -132,10 +134,10 @@ async def get_weather(
 ):
     """
     Отправляет пользователю прогноз погоды на 5 дней или на текущий день.
-    
-    Работа с FSMWeather
+
+    Работа с FSMWeather.
     """
-    
+
     # Встаем в состояние spam для отправки сообщения пользователю при запросе
     await state.set_state(FSMWeather.spam)
 
@@ -171,8 +173,8 @@ async def get_weather(
         api_openweathermap=settings.APPID,
         session=session,
         future=future,
-        weather_open_wp_api=weather_open_wp_api,
-        weather_translation=weather_translation.weather_translation,
+        weather_openwm_api=weather_openwm_api,
+        weather_translation=weather_translation_settings.weather_translation,
     )
     await state.clear()
     if result_weather.message:

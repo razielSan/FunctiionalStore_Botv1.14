@@ -27,7 +27,6 @@ class PasswordAPI:
                 - message (Any | None): Данные успешного ответа (если запрос прошёл успешно).
                 - error (str | None): Описание ошибки, если запрос завершился неудачей.
         """
-
         array_generating_password: List = []
 
         def random_generate_value(

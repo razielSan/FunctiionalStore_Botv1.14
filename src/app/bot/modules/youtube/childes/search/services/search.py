@@ -20,7 +20,7 @@ class SearchYoutuveService:
         relevance_language: str = "ru",
     ) -> NetworkResponseData:
         """
-        Application service для сценария поиска изображений по названию.
+        Application service для сценария поиска информации о видео.
 
         Отвечает за:
         - оркестрацию вызова YoutubeSearchAp

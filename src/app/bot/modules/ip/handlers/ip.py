@@ -11,7 +11,7 @@ router: Router = Router(name=__name__)
 
 
 @router.message(StateFilter(None), F.text == settings.MENU_REPLY_TEXT)
-async def youtube(message: Message, bot: Bot) -> None:
+async def ip(message: Message, bot: Bot) -> None:
     """
     Главный обработчик для модуля ip.
 

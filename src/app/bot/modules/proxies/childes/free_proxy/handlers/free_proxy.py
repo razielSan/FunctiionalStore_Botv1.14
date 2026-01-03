@@ -1,3 +1,5 @@
+from typing import Union
+
 from aiogram import Router, F, Bot
 from aiogram.types import CallbackQuery, Message, ReplyKeyboardRemove
 from aiogram.filters.state import StateFilter
@@ -15,6 +17,7 @@ from app.bot.modules.proxies.childes.free_proxy.services.free_proxy import (
     free_proxy_service,
 )
 from app.settings.response import messages
+from app.core.response import NetworkResponseData, ResponseData
 
 
 router: Router = Router(name=__name__)
@@ -84,10 +87,12 @@ async def get_data_proxies(
             await progress_message.edit_text(text)
         except Exception:
             pass
-        
+
     logging_data = get_log()
 
-    free_proxy = await free_proxy_service.recieve(
+    free_proxy: Union[
+        ResponseData, NetworkResponseData
+    ] = await free_proxy_service.recieve(
         type_proxy=type_proxy,
         list_data_proxies=settings.LIST_DATA_PROXIES,
         get_free_proxy=get_free_proxy,
