@@ -3,6 +3,7 @@ from pathlib import Path
 from logging import Logger
 import shutil
 import os
+import asyncio
 
 from app.core.response import ResponseData, LoggingData
 from app.error_handlers.format import format_errors_message
@@ -61,26 +62,32 @@ def delete_all_files_and_symbolik_link(
             )
 
 
-def delete_data(
+async def save_delete_data(
     list_path: List[Path],
     warning_logger: Optional[Logger] = None,
+    retries: int = 3,
 ) -> None:
     """Удаляет данные по переданному пути.
 
     Args:
         list_path (List[Path]): Список с путями до данных
         warning_logger (Optional[Logger], optional): логгер для записи в лог. По умолчанию None
+        retries (int): Количество попыток для удаления данных
     """
     for path in list_path:
-        try:
-            if path.is_file():
-                path.unlink()
-            if path.is_dir():
-                shutil.rmtree(path=path)
-        except Exception as err:
-            message: str = f"Ошибка при удалении {path}: {err}"
-            if warning_logger:
-                warning_logger.exception(msg=message)
+        for _ in range(retries):
+            try:
+                if path.is_file():
+                    path.unlink()
+                if path.is_dir():
+                    shutil.rmtree(path=path)
+
+            except PermissionError:
+                await asyncio.sleep(1)
+            except Exception as err:
+                message: str = f"Ошибка при удалении {path}: {err}"
+                if warning_logger:
+                    warning_logger.exception(msg=message)
 
 
 def make_archive(

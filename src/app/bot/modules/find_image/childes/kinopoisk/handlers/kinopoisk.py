@@ -18,7 +18,7 @@ from app.settings.response import messages, telegam_emogi
 from app.bot.modules.find_image.childes.kinopoisk.services.kinopoisk import (
     kinopoisk_service,
 )
-from app.app_utils.filesistem import delete_data
+from app.app_utils.filesistem import save_delete_data
 from app.bot.modules.find_image.childes.kinopoisk.logging import get_log
 from app.core.response import ResponseData, NetworkResponseData, LoggingData
 from app.core.paths import APP_DIR
@@ -167,15 +167,19 @@ async def get_poster_kinopoisk(
         await message.answer("⏳ Идет выгрузка архива в телеграм....")
 
         try:
-            await asyncio.sleep(2)
-            # Отправляем архив пользователю
-            await bot.send_document(
-                chat_id=chat_id,
-                document=FSInputFile(path=archive),
-                caption="🌆 Скачанные изображения",
-                reply_markup=ReplyKeyboardRemove(),
-                request_timeout=180,
-            )
+            retries: int = 3
+            for _ in range(retries):  # безопасно отправляем архив пользователю
+                try:
+                    await bot.send_document(
+                        chat_id=chat_id,
+                        document=FSInputFile(path=archive),
+                        caption="🌆 Скачанные изображения",
+                        reply_markup=ReplyKeyboardRemove(),
+                        request_timeout=180,
+                    )
+                    break
+                except PermissionError:
+                    await asyncio.sleep(1)
         except TelegramNetworkError:
             logging_data.info_logger.exception(
                 msg="Telegram timeout while uploading archive"
@@ -190,7 +194,7 @@ async def get_poster_kinopoisk(
             reply_markup=get_main_keyboards,
         )
 
-        delete_data(
+        await save_delete_data(
             list_path=[archive],
             warning_logger=logging_data.warning_logger,
         )  # удаляем архив

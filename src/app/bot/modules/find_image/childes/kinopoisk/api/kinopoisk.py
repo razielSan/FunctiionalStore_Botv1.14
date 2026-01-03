@@ -6,7 +6,7 @@ from aiohttp import ClientSession
 from app.core.response import LoggingData, NetworkResponseData, ResponseData
 from app.error_handlers.network import error_handler_for_the_website
 from app.app_utils.filesistem import (
-    delete_data,
+    save_delete_data,
     delete_all_files_and_symbolik_link,
     make_archive,
 )
@@ -174,7 +174,7 @@ class KinopoiskApi:
         )
 
         # удаляем временную папку для хранения изображений
-        delete_data(
+        await save_delete_data(
             list_path=[path_image_folder],
             warning_logger=logging_data.warning_logger,
         )

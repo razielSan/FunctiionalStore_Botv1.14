@@ -24,7 +24,7 @@ from app.bot.modules.find_image.childes.find_name_image.logging import get_log
 from app.settings.response import messages, telegam_emogi
 from app.app_utils.keyboards import get_reply_cancel_button
 from app.app_utils.chek import chek_number_is_positivity
-from app.app_utils.filesistem import delete_data
+from app.app_utils.filesistem import save_delete_data
 from app.core.paths import APP_DIR
 from app.core.response import ResponseData, NetworkResponseData
 
@@ -204,15 +204,19 @@ async def get_image(
                 await message.answer("⏳ Идет выгрузка архива в телеграм....")
 
                 try:
-                    await asyncio.sleep(2)
-                    # Отправляем архив пользователю
-                    await bot.send_document(
-                        chat_id=chat_id,
-                        document=FSInputFile(path=str(archive_images.message)),
-                        caption="🌆 Скачанные изображения",
-                        reply_markup=ReplyKeyboardRemove(),
-                        request_timeout=180,
-                    )
+                    retries = 3
+                    for _ in range(retries):  # безопсано отправляем архив
+                        try:
+                            await bot.send_document(
+                                chat_id=chat_id,
+                                document=FSInputFile(str(archive_images.message)),
+                                caption="🌆 Скачанные изображения",
+                                reply_markup=ReplyKeyboardRemove(),
+                                request_timeout=180,
+                            )
+                            break
+                        except PermissionError:
+                            asyncio.sleep(1)
                 except TelegramNetworkError:
                     logging_data.info_logger.exception(
                         msg="Telegram timeout while uploading archive"
@@ -231,7 +235,7 @@ async def get_image(
 
                 # удаляем архив
                 archive = archive_images.message
-                delete_data(
+                await save_delete_data(
                     list_path=[archive],
                     warning_logger=logging_data.warning_logger,
                 )

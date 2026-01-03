@@ -5,7 +5,7 @@ from app.core.response import NetworkResponseData, LoggingData, ResponseData
 from app.app_utils.filesistem import (
     make_archive,
     delete_all_files_and_symbolik_link,
-    delete_data,
+    save_delete_data,
 )
 from app.error_handlers.format import format_errors_message
 from app.bot.modules.find_image.childes.find_name_image.adapters import (
@@ -86,7 +86,7 @@ class FindNameImageService:
             )
 
             # Удаляем временную папку для хранения изображений
-            delete_data(
+            await save_delete_data(
                 list_path=[path_archive],
                 warning_logger=logging_data.warning_logger,
             )
